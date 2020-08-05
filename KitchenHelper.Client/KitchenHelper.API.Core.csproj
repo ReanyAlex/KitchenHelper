@@ -9,4 +9,9 @@
     <ProjectReference Include="..\KitchenHelper.Data\KitchenHelper.API.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Abstract\" />
+    <Folder Include="Concrete\" />
+  </ItemGroup>
+
 </Project>
