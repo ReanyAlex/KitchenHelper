@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Kitchen.API.Data.Entities\KitchenHelper.API.Data.Entities.csproj" />
+    <ProjectReference Include="..\KitchenHelper.Client\KitchenHelper.API.Core.csproj" />
+    <ProjectReference Include="..\KitchenHelper.Data\KitchenHelper.API.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
+
+</Project>
