@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KitchenHelper.API.Data.Entities.DbEntities
 {
     public class RecipeStep
     {   
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
@@ -14,7 +16,9 @@ namespace KitchenHelper.API.Data.Entities.DbEntities
         [MaxLength(2500)]
         public string Step { get; set; }
 
-        [Required]
+        [ForeignKey("RecipeId")]
+        public Recipe Recipe { get; set; }
+
         public int RecipeId { get; set; }
     }
 }
