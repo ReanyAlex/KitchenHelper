@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KitchenHelper.API.Data.Entities.DbEntities
 {
     public class Recipe
     {   [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
@@ -15,8 +17,12 @@ namespace KitchenHelper.API.Data.Entities.DbEntities
         [MaxLength(2500)]
         public string Description { get; set; }
 
-        public IEnumerable<RecipeIngredientInformation> Ingredients { get; set; }
+        public string Category { get; set; }
 
-        public IEnumerable<RecipeStep> RecipeSteps { get; set; }
+        public ICollection<RecipeIngredientInformation> Ingredients { get; set; }
+            = new List<RecipeIngredientInformation>();
+
+        public ICollection<RecipeStep> RecipeSteps { get; set; }
+            = new List<RecipeStep>();
     }
 }

@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KitchenHelper.API.Data.Entities.DbEntities
 {
     public class Measurement
     {   
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
@@ -14,5 +16,10 @@ namespace KitchenHelper.API.Data.Entities.DbEntities
         [Required]
         [MaxLength(20)]
         public string ShortHand { get; set; }
+
+        [ForeignKey("RecipeIngredientInformationId")]
+        public RecipeIngredientInformation RecipeIngredientInformation { get; set; }
+
+        public int RecipeIngredientInformationId { get; set; }
     }
 }
