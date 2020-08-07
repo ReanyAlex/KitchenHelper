@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KitchenHelper.API.Data.Migrations
 {
     [DbContext(typeof(KitchenHelperDbContext))]
-    [Migration("20200806013856_IntitalMigration2")]
-    partial class IntitalMigration2
+    [Migration("20200807202347_mockdata")]
+    partial class mockdata
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,13 +32,7 @@ namespace KitchenHelper.API.Data.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<int>("RecipeIngredientInformationId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("RecipeIngredientInformationId")
-                        .IsUnique();
 
                     b.ToTable("Ingredients");
 
@@ -46,8 +40,12 @@ namespace KitchenHelper.API.Data.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Milk",
-                            RecipeIngredientInformationId = 1
+                            Name = "Milk"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Cookie"
                         });
                 });
 
@@ -63,18 +61,12 @@ namespace KitchenHelper.API.Data.Migrations
                         .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
-                    b.Property<int>("RecipeIngredientInformationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ShortHand")
                         .IsRequired()
                         .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RecipeIngredientInformationId")
-                        .IsUnique();
 
                     b.ToTable("Measurements");
 
@@ -83,8 +75,13 @@ namespace KitchenHelper.API.Data.Migrations
                         {
                             Id = 1,
                             Name = "Cup",
-                            RecipeIngredientInformationId = 1,
                             ShortHand = "C"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Each",
+                            ShortHand = "Each"
                         });
                 });
 
@@ -119,6 +116,13 @@ namespace KitchenHelper.API.Data.Migrations
                             Category = "Test",
                             Description = "A nice cold glass of milk",
                             Name = "Cup of Milk"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Category = "Test",
+                            Description = "A nice cold glass of milk with cookies",
+                            Name = "Cup of Milk With Cookies"
                         });
                 });
 
@@ -129,6 +133,12 @@ namespace KitchenHelper.API.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("IngredientId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MeasurementId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
@@ -136,6 +146,10 @@ namespace KitchenHelper.API.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IngredientId");
+
+                    b.HasIndex("MeasurementId");
 
                     b.HasIndex("RecipeId");
 
@@ -145,8 +159,26 @@ namespace KitchenHelper.API.Data.Migrations
                         new
                         {
                             Id = 1,
+                            IngredientId = 1,
+                            MeasurementId = 1,
                             Quantity = 2,
                             RecipeId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            IngredientId = 1,
+                            MeasurementId = 1,
+                            Quantity = 2,
+                            RecipeId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            IngredientId = 2,
+                            MeasurementId = 2,
+                            Quantity = 4,
+                            RecipeId = 2
                         });
                 });
 
@@ -181,29 +213,37 @@ namespace KitchenHelper.API.Data.Migrations
                             Order = 1,
                             RecipeId = 1,
                             Step = "Drink Milk"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Order = 1,
+                            RecipeId = 2,
+                            Step = "Drink Milk"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Order = 2,
+                            RecipeId = 2,
+                            Step = "Eat Cookie"
                         });
-                });
-
-            modelBuilder.Entity("KitchenHelper.API.Data.Entities.DbEntities.Ingredient", b =>
-                {
-                    b.HasOne("KitchenHelper.API.Data.Entities.DbEntities.RecipeIngredientInformation", "RecipeIngredientInformation")
-                        .WithOne("Ingredient")
-                        .HasForeignKey("KitchenHelper.API.Data.Entities.DbEntities.Ingredient", "RecipeIngredientInformationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("KitchenHelper.API.Data.Entities.DbEntities.Measurement", b =>
-                {
-                    b.HasOne("KitchenHelper.API.Data.Entities.DbEntities.RecipeIngredientInformation", "RecipeIngredientInformation")
-                        .WithOne("Measurement")
-                        .HasForeignKey("KitchenHelper.API.Data.Entities.DbEntities.Measurement", "RecipeIngredientInformationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("KitchenHelper.API.Data.Entities.DbEntities.RecipeIngredientInformation", b =>
                 {
+                    b.HasOne("KitchenHelper.API.Data.Entities.DbEntities.Ingredient", "Ingredient")
+                        .WithMany()
+                        .HasForeignKey("IngredientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KitchenHelper.API.Data.Entities.DbEntities.Measurement", "Measurement")
+                        .WithMany()
+                        .HasForeignKey("MeasurementId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("KitchenHelper.API.Data.Entities.DbEntities.Recipe", "Recipe")
                         .WithMany("Ingredients")
                         .HasForeignKey("RecipeId")

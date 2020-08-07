@@ -11,13 +11,16 @@ namespace KitchenHelper.API.Data.Entities.DbEntities
 
         public int Quantity { get; set; }
 
+        [ForeignKey("MeasurementId")]
         public Measurement Measurement { get; set; }
+        public int MeasurementId { get; set; }
 
+        [ForeignKey("IngredientId")]
         public Ingredient Ingredient { get; set; }
+        public int IngredientId { get; set; }
 
         [ForeignKey("RecipeId")]
         public Recipe Recipe { get; set; }
-
         public int RecipeId { get; set; }
 
     }

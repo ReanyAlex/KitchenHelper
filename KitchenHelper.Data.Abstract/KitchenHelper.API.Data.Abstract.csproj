@@ -9,7 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Recipes\" />
     <Folder Include="Ingredients\" />
   </ItemGroup>
 
