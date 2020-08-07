@@ -16,8 +16,8 @@ namespace KitchenHelper.API.Data.Entities.DbEntities
         [MaxLength(2500)]
         public string Step { get; set; }
 
-        [ForeignKey("RecipeId")]
-        public Recipe Recipe { get; set; }
+        //[ForeignKey("RecipeId")]
+        //public Recipe Recipe { get; set; }
 
         public int RecipeId { get; set; }
     }

@@ -1,3 +1,4 @@
+using AutoMapper;
 using KitchenHelper.API.Data.Database.Sql;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -5,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace KitchenHelper.API
 {
@@ -23,6 +25,8 @@ namespace KitchenHelper.API
             services.AddControllers()
                     .AddNewtonsoftJson(options =>
                         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddDbContext<KitchenHelperDbContext>(o => o.UseSqlServer(Configuration.GetConnectionString("KitchenHelper")));
 
