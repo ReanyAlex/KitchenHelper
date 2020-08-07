@@ -34,90 +34,84 @@ namespace KitchenHelper.API.Data.Database.Sql
             );
 
             modelBuilder.Entity<RecipeStep>().HasData(
-            new RecipeStep()
-            {
-                Id = 1,
-                Order = 1,
-                Step = "Drink Milk",
-                RecipeId = 1
-            },
-            new RecipeStep()
-            {
-                Id = 2,
-                Order = 1,
-                Step = "Drink Milk",
-                RecipeId = 2
-            },
-            new RecipeStep()
-            {
-                Id = 3,
-                Order = 2,
-                Step = "Eat Cookie",
-                RecipeId = 2
-            });
+                new RecipeStep()
+                {
+                    Id = 1,
+                    Order = 1,
+                    Step = "Drink Milk",
+                    RecipeId = 1
+                },
+                new RecipeStep()
+                {
+                    Id = 2,
+                    Order = 1,
+                    Step = "Drink Milk",
+                    RecipeId = 2
+                },
+                new RecipeStep()
+                {
+                    Id = 3,
+                    Order = 2,
+                    Step = "Eat Cookie",
+                    RecipeId = 2
+                }
+            );
 
 
             modelBuilder.Entity<RecipeIngredientInformation>().HasData(
-            new RecipeIngredientInformation()
-            {
-                Id = 1,
-                Quantity = 2,
-                MeasurementId = 1,
-                IngredientId = 1,
-                RecipeId = 1
-            },
-            new RecipeIngredientInformation()
-            {
-                Id = 2,
-                Quantity = 2,
-                MeasurementId = 1,
-                IngredientId = 1,
-                RecipeId = 2
-            },
-            new RecipeIngredientInformation()
-            {
-                Id = 3,
-                Quantity = 4,
-                MeasurementId = 2,
-                IngredientId = 2,
-                RecipeId = 2
-            }
+                new RecipeIngredientInformation()
+                {
+                    Id = 1,
+                    Quantity = 2,
+                    MeasurementId = 1,
+                    IngredientId = 1,
+                    RecipeId = 1
+                },
+                new RecipeIngredientInformation()
+                {
+                    Id = 2,
+                    Quantity = 2,
+                    MeasurementId = 1,
+                    IngredientId = 1,
+                    RecipeId = 2
+                },
+                new RecipeIngredientInformation()
+                {
+                    Id = 3,
+                    Quantity = 4,
+                    MeasurementId = 2,
+                    IngredientId = 2,
+                    RecipeId = 2
+                }
             );
 
 
             modelBuilder.Entity<Ingredient>().HasData(
-            new Ingredient()
-            {
-                Id = 1,
-                Name = "Milk",
-            },
-            new Ingredient()
-            {
-                Id = 2,
-                Name = "Cookie",
-            }
+                new Ingredient()
+                {
+                    Id = 1,
+                    Name = "Milk",
+                },
+                new Ingredient()
+                {
+                    Id = 2,
+                    Name = "Cookie",
+                }
             );
 
             modelBuilder.Entity<Measurement>().HasData(
-            new Measurement()
-            {
-                Id = 1,
-                Name = "Cup",
-                ShortHand = "C",
-            },
-            new Measurement()
-            {
-                Id = 2,
-                Name = "Each",
-                ShortHand = "Each",
-            }
-            //new Measurement()
-            //{
-            //    Id = 3,
-            //    Name = "Cup",
-            //    ShortHand = "C",
-            //    RecipeIngredientInformationId = 3
-            //}
+                new Measurement()
+                {
+                    Id = 1,
+                    Name = "Cup",
+                    ShortHand = "C",
+                },
+                new Measurement()
+                {
+                    Id = 2,
+                    Name = "Each",
+                    ShortHand = "Each",
+                }
             );
         }
     }

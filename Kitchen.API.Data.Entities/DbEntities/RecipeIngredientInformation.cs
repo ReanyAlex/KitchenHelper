@@ -19,8 +19,6 @@ namespace KitchenHelper.API.Data.Entities.DbEntities
         public Ingredient Ingredient { get; set; }
         public int IngredientId { get; set; }
 
-        [ForeignKey("RecipeId")]
-        public Recipe Recipe { get; set; }
         public int RecipeId { get; set; }
 
     }
