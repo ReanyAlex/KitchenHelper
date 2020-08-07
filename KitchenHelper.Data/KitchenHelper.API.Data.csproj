@@ -11,9 +11,28 @@
     <Compile Remove="Migrations\20200806012454_IntitalMigration.Designer.cs" />
     <Compile Remove="Migrations\20200806012620_IntitalMigration.cs" />
     <Compile Remove="Migrations\20200806012620_IntitalMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200806012722_IntitalMigration.cs" />
+    <Compile Remove="Migrations\20200806012722_IntitalMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200806013239_IntitalMigration1.cs" />
+    <Compile Remove="Migrations\20200806013239_IntitalMigration1.Designer.cs" />
+    <Compile Remove="Migrations\20200806013856_IntitalMigration2.cs" />
+    <Compile Remove="Migrations\20200806013856_IntitalMigration2.Designer.cs" />
+    <Compile Remove="Migrations\20200807165433_mockdata.cs" />
+    <Compile Remove="Migrations\20200807165433_mockdata.Designer.cs" />
+    <Compile Remove="Migrations\20200807165759_mockdata1.cs" />
+    <Compile Remove="Migrations\20200807165759_mockdata1.Designer.cs" />
+    <Compile Remove="Migrations\20200807170800_mockdata.cs" />
+    <Compile Remove="Migrations\20200807170800_mockdata.Designer.cs" />
+    <Compile Remove="Migrations\20200807200820_mockdata.cs" />
+    <Compile Remove="Migrations\20200807200820_mockdata.Designer.cs" />
+    <Compile Remove="Migrations\20200807201241_mockdata.cs" />
+    <Compile Remove="Migrations\20200807201241_mockdata.Designer.cs" />
+    <Compile Remove="Migrations\20200807201423_InitialMigration.cs" />
+    <Compile Remove="Migrations\20200807201423_InitialMigration.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.6">
       <PrivateAssets>all</PrivateAssets>

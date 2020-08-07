@@ -1,6 +1,5 @@
 ﻿using KitchenHelper.API.Data.Entities.DbEntities;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace KitchenHelper.API.Data.Database.Sql
 {
@@ -24,7 +23,15 @@ namespace KitchenHelper.API.Data.Database.Sql
                     Name = "Cup of Milk",
                     Description = "A nice cold glass of milk",
                     Category = "Test"
-                });
+                },
+                new Recipe()
+                {
+                    Id = 2,
+                    Name = "Cup of Milk With Cookies",
+                    Description = "A nice cold glass of milk with cookies",
+                    Category = "Test"
+                }
+            );
 
             modelBuilder.Entity<RecipeStep>().HasData(
             new RecipeStep()
@@ -33,6 +40,20 @@ namespace KitchenHelper.API.Data.Database.Sql
                 Order = 1,
                 Step = "Drink Milk",
                 RecipeId = 1
+            },
+            new RecipeStep()
+            {
+                Id = 2,
+                Order = 1,
+                Step = "Drink Milk",
+                RecipeId = 2
+            },
+            new RecipeStep()
+            {
+                Id = 3,
+                Order = 2,
+                Step = "Eat Cookie",
+                RecipeId = 2
             });
 
 
@@ -41,8 +62,27 @@ namespace KitchenHelper.API.Data.Database.Sql
             {
                 Id = 1,
                 Quantity = 2,
+                MeasurementId = 1,
+                IngredientId = 1,
                 RecipeId = 1
-            });
+            },
+            new RecipeIngredientInformation()
+            {
+                Id = 2,
+                Quantity = 2,
+                MeasurementId = 1,
+                IngredientId = 1,
+                RecipeId = 2
+            },
+            new RecipeIngredientInformation()
+            {
+                Id = 3,
+                Quantity = 4,
+                MeasurementId = 2,
+                IngredientId = 2,
+                RecipeId = 2
+            }
+            );
 
 
             modelBuilder.Entity<Ingredient>().HasData(
@@ -50,8 +90,13 @@ namespace KitchenHelper.API.Data.Database.Sql
             {
                 Id = 1,
                 Name = "Milk",
-                RecipeIngredientInformationId = 1
-            });
+            },
+            new Ingredient()
+            {
+                Id = 2,
+                Name = "Cookie",
+            }
+            );
 
             modelBuilder.Entity<Measurement>().HasData(
             new Measurement()
@@ -59,8 +104,21 @@ namespace KitchenHelper.API.Data.Database.Sql
                 Id = 1,
                 Name = "Cup",
                 ShortHand = "C",
-                RecipeIngredientInformationId = 1
-            });
+            },
+            new Measurement()
+            {
+                Id = 2,
+                Name = "Each",
+                ShortHand = "Each",
+            }
+            //new Measurement()
+            //{
+            //    Id = 3,
+            //    Name = "Cup",
+            //    ShortHand = "C",
+            //    RecipeIngredientInformationId = 3
+            //}
+            );
         }
     }
 }

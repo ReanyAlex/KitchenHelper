@@ -12,10 +12,5 @@ namespace KitchenHelper.API.Data.Entities.DbEntities
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
-
-        [ForeignKey("RecipeIngredientInformationId")]
-        public RecipeIngredientInformation RecipeIngredientInformation { get; set; }
-
-        public int RecipeIngredientInformationId { get; set; }
     }
 }
