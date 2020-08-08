@@ -1,34 +1,93 @@
-# ASP.NET Core (.NET Framework)
-# Build and test ASP.NET Core projects targeting the full .NET Framework.
-# Add steps that publish symbols, save build artifacts, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
-trigger:
-- master
-
 pool:
-  vmImage: 'windows-latest'
-
+  name: Default
+  demands:
+  - Agent.OS -equals Linux
+  
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
+  buildConfiguration: Release
+  project: '$(Build.SourcesDirectory)/Solution.sln'
+  testOutputDirectory: '$(Agent.TempDirectory)/testresults'
 
 steps:
-- task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
+- task: SonarCloudPrepare@1
   inputs:
-    restoreSolution: '$(solution)'
+    SonarCloud: 'SonarCloud'
+    organization: 'organization'
+    scannerMode: 'MSBuild'
+    projectKey: 'projectKey'
+    projectName: 'projectName'
+    extraProperties: |
+        sonar.cs.vstest.reportsPaths=$(TestOutputDirectory)/*.trx
+        sonar.coverageReportPaths=$(TestOutputDirectory)/mergedcoveragereport/SonarQube.xml
+        sonar.coverage.exclusions=**/Migrations/*.cs,**/*Tests*/**/*
 
-- task: VSBuild@1
+- task: UseDotNet@2
+  displayName: 'Install .NET Core 2.x runtime as it is needed for SonarCloud plugin'
   inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    packageType: 'runtime'
+    version: '2.x'
+    
+- task: UseDotNet@2
+  displayName: 'Use .NET Core sdk'
+  inputs:
+    packageType: sdk
+    version: 3.1.101
+    installationPath: $(Agent.ToolsDirectory)/dotnet
 
-- task: VSTest@2
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet restore private feed'
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    command: restore
+    projects: '$(project)'
+    vstsFeed: '00000000-0000-0000-0000-000000000000'
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet build'
+  inputs:
+    projects: '$(project)'
+    arguments: '--no-restore --configuration $(BuildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet test'
+  inputs:
+    command: test
+    publishTestResults: false
+    projects: '$(project)'
+    arguments: '--no-restore --no-build --configuration $(BuildConfiguration) --logger trx --collect:"XPlat Code Coverage" --results-directory $(TestOutputDirectory)'
+    
+- task: reportgenerator@4
+  inputs:
+    reports: '$(TestOutputDirectory)/*/coverage.cobertura.xml'
+    targetdir: '$(TestOutputDirectory)/mergedcoveragereport'
+    reporttypes: 'Cobertura;SonarQube'
+    assemblyfilters: '-*Tests*'
+    filefilters: '-*/Migrations/*.cs'
+
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '$(TestOutputDirectory)/mergedcoveragereport/Cobertura.xml'
+
+- task: SonarCloudAnalyze@1
+
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
+
+- task: WhiteSource Bolt@20
+  inputs:
+    cwd: '$(Build.SourcesDirectory)'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: publish
+    publishWebProjects: True
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: True
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
+    artifactName: 'artifactName'
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
