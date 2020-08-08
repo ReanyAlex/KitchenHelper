@@ -25,7 +25,6 @@ namespace KitchenHelper.API.Controllers
         [HttpHead]
         public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipes()
         {
-
             var recipeEntities = await _recipes.GetAll();
 
             var recipeDtosList = _mapper.Map<IEnumerable<RecipeDto>>(recipeEntities);
