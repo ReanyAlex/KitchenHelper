@@ -1,10 +1,11 @@
-﻿using KitchenHelper.API.Data.Entities.DbEntities;
+﻿using KitchenHelper.API.Data.Database.Sql.Abstract;
+using KitchenHelper.API.Data.Entities.DbEntities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace KitchenHelper.API.Data.Database.Sql.Recipes
+namespace KitchenHelper.API.Data.Database.Sql.Concrete
 {
     public class Recipes : IRecipes
     {

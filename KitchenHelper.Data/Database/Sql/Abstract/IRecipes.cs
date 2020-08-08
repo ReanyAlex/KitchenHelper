@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace KitchenHelper.API.Data.Database
+namespace KitchenHelper.API.Data.Database.Sql.Abstract
 {
     public interface IRecipes
     {
