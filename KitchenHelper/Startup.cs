@@ -31,8 +31,7 @@ namespace KitchenHelper.API
             services.AddDbContext<KitchenHelperDbContext>(o => o.UseSqlServer(Configuration.GetConnectionString("KitchenHelper")));
 
             services.AddScoped<Core.Abstract.IRecipes, Core.Concrete.Recipes>();
-            services.AddScoped<Data.Abstract.Recipes.IRecipes, Data.Concrete.Recipes.Recipes>();
-            services.AddScoped<Data.Database.IRecipes, Data.Database.Sql.Recipes.Recipes>();
+            services.AddScoped<Data.Database.Sql.Abstract.IRecipes, Data.Database.Sql.Concrete.Recipes>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
