@@ -27,8 +27,7 @@ namespace KitchenHelper.API.Controllers
         {
             var recipeEntities = await _recipes.GetAll();
 
-            var recipeDtosList = _mapper.Map<IEnumerable<RecipeDto>>(recipeEntities);
-            return Ok(recipeDtosList);
+            return Ok(_mapper.Map<IEnumerable<RecipeDto>>(recipeEntities));
         }
     }
 }
