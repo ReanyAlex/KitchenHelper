@@ -8,7 +8,7 @@ namespace KitchenHelper.API.Data.Database.Sql.Abstract
         Task CreateAsync(T entity);
 
         Task<T> GetAsync(int id);
-        Task<IEnumerable<T>> GetIngredientsAsync();
+        Task<IEnumerable<T>> GetListAsync();
 
         void Update(T entity);
 

@@ -9,7 +9,7 @@ namespace KitchenHelper.API.Core.Abstract
         Task CreateAsync(Measurement measurement);
 
         Task<Measurement> GetAsync(int measurementId);
-        Task<IEnumerable<Measurement>> GetMeasurementsAsync();
+        Task<IEnumerable<Measurement>> GetListAsync();
 
         void Update(Measurement measurement);
 

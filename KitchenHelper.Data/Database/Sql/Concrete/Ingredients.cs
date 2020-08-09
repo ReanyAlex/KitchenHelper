@@ -28,7 +28,7 @@ namespace KitchenHelper.API.Data.Database.Sql.Concrete
                 .Where(i => i.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Ingredient>> GetIngredientsAsync()
+        public async Task<IEnumerable<Ingredient>> GetListAsync()
         {
             return await _context.Ingredients.ToListAsync();
         }
