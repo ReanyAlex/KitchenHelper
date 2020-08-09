@@ -35,9 +35,9 @@ namespace KitchenHelper.API.Core.Concrete
             return await _dal.GetAsync(ingredientId);
         }
 
-        public async Task<IEnumerable<Ingredient>> GetIngredientsAsync()
+        public async Task<IEnumerable<Ingredient>> GetListAsync()
         {
-            return await _dal.GetIngredientsAsync();
+            return await _dal.GetListAsync();
         }
 
         public async Task<bool> SaveAsync()

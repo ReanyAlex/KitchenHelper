@@ -36,9 +36,9 @@ namespace KitchenHelper.API.Core.Concrete
             return await _dal.GetAsync(measurementId);
         }
 
-        public async Task<IEnumerable<Measurement>> GetMeasurementsAsync()
+        public async Task<IEnumerable<Measurement>> GetListAsync()
         {
-            return await _dal.GetMeasurementsAsync();
+            return await _dal.GetListAsync();
         }
 
         public async Task<bool> SaveAsync()

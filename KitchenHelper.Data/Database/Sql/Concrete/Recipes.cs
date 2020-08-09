@@ -3,6 +3,7 @@ using KitchenHelper.API.Data.Entities.DbEntities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace KitchenHelper.API.Data.Database.Sql.Concrete
@@ -16,7 +17,18 @@ namespace KitchenHelper.API.Data.Database.Sql.Concrete
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<IEnumerable<Recipe>> GetAll()
+        public async Task CreateAsync(Recipe entity)
+        {
+            await _context.Recipes.AddAsync(entity);
+        }
+
+        public async Task<Recipe> GetAsync(int id)
+        {
+            return await _context.Recipes
+                .Where(i => i.Id == id).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<Recipe>> GetListAsync()
         {
             return await _context.Recipes
                             .Include(r => r.Ingredients)
@@ -25,6 +37,27 @@ namespace KitchenHelper.API.Data.Database.Sql.Concrete
                                .ThenInclude(i => i.Ingredient)
                             .Include(r => r.RecipeSteps)
                             .ToListAsync();
+        }
+
+        public void Update(Recipe entity)
+        {
+            // No Implementation
+        }
+
+        public void Delete(Recipe entity)
+        {
+            _context.Recipes.Remove(entity);
+        }
+
+        public async Task<bool> ExistsAsync(int id)
+        {
+            return await _context.Recipes
+                .AnyAsync(i => i.Id == id);
+        }
+
+        public async Task<bool> SaveAsync()
+        {
+            return (await _context.SaveChangesAsync() >= 0);
         }
 
         public void Dispose()

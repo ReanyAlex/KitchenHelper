@@ -9,7 +9,7 @@ namespace KitchenHelper.API.Core.Abstract
         Task CreateAsync(Ingredient ingredient);
 
         Task<Ingredient> GetAsync(int ingredientId);
-        Task<IEnumerable<Ingredient>> GetIngredientsAsync();
+        Task<IEnumerable<Ingredient>> GetListAsync();
 
         void Update(Ingredient ingredient);
 
