@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>KitchenHelper.API</name>
+    </assembly>
+    <members>
+        <member name="M:KitchenHelper.API.Controllers.IngredientsController.CreateIngredientAsync(KitchenHelper.API.Data.Entities.Parameters.IngredientForCreation)">
+            <summary>
+            
+            </summary>
+            <param name="ingredientForCreation"></param>
+            <returns>An ActionResult of type IngredientDto</returns>
+        </member>
+        <member name="M:KitchenHelper.API.Controllers.IngredientsController.GetIngredientsAsync">
+            <summary>
+            Get Ingredient by the ingredients id
+            </summary>
+            <returns>An ActionResult of type IEnumerable of IngredientDto</returns>
+        </member>
+        <member name="M:KitchenHelper.API.Controllers.IngredientsController.GetIngredientAsync(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="ingredientId"></param>
+            <returns>An ActionResult of type IngredientDto</returns>
+        </member>
+        <member name="M:KitchenHelper.API.Controllers.IngredientsController.UpdateIngredientAsync(System.Int32,KitchenHelper.API.Data.Entities.Parameters.IngredientForUpdate)">
+            <summary>
+            
+            </summary>
+            <param name="ingredientId"></param>
+            <param name="ingredientForUpdate"></param>
+            <returns>An ActionResult of type IngredientDto</returns>
+        </member>
+        <member name="M:KitchenHelper.API.Controllers.IngredientsController.DeleteIngredientAsync(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="ingredientId"></param>
+            <returns>No Content</returns>
+        </member>
+    </members>
+</doc>

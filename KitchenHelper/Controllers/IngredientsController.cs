@@ -3,6 +3,7 @@ using KitchenHelper.API.Core.Abstract;
 using KitchenHelper.API.Data.Entities.DbEntities;
 using KitchenHelper.API.Data.Entities.Dtos;
 using KitchenHelper.API.Data.Entities.Parameters;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -23,9 +24,13 @@ namespace KitchenHelper.API.Controllers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ingredientForCreation"></param>
+        /// <returns>An ActionResult of type IngredientDto</returns>
         [HttpPost(Name = "CreateIngredient")]
-        [HttpHead]
-        public async Task<ActionResult> CreateIngredientAsync(IngredientForCreation ingredientForCreation)
+        public async Task<ActionResult<IngredientDto>> CreateIngredientAsync(IngredientForCreation ingredientForCreation)
         {
             var ingredientToAdd = _mapper.Map<Ingredient>(ingredientForCreation);
             await _ingredients.CreateAsync(ingredientToAdd);
@@ -37,9 +42,14 @@ namespace KitchenHelper.API.Controllers
                 _mapper.Map<IngredientDto>(ingredientToAdd));
         }
 
+        /// <summary>
+        /// Get Ingredient by the ingredients id
+        /// </summary>
+        /// <returns>An ActionResult of type IEnumerable of IngredientDto</returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet(Name = "GetIngredients")]
-        [HttpHead]
-        public async Task<ActionResult<IEnumerable<Ingredient>>> GetIngredientsAsync()
+        public async Task<ActionResult<IEnumerable<IngredientDto>>> GetIngredientsAsync()
         {
             var ingredientEntities = await _ingredients.GetIngredientsAsync();
 
@@ -47,8 +57,13 @@ namespace KitchenHelper.API.Controllers
             return Ok(ingredientDtosList);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ingredientId"></param>
+        /// <returns>An ActionResult of type IngredientDto</returns>
         [HttpGet("{ingredientId}", Name = "GetIngredient")]
-        public async Task<ActionResult<IEnumerable<Ingredient>>> GetIngredientAsync(int ingredientId)
+        public async Task<ActionResult<IngredientDto>> GetIngredientAsync(int ingredientId)
         {
             var ingredientFromRepo = await _ingredients.GetAsync(ingredientId);
 
@@ -58,9 +73,14 @@ namespace KitchenHelper.API.Controllers
             return Ok(ingredientDto);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ingredientId"></param>
+        /// <param name="ingredientForUpdate"></param>
+        /// <returns>An ActionResult of type IngredientDto</returns>
         [HttpPut("{ingredientId}", Name = "UpdateIngredient")]
-        [HttpHead]
-        public async Task<ActionResult<Ingredient>> UpdateIngredientAsync(int ingredientId, IngredientForUpdate ingredientForUpdate)
+        public async Task<ActionResult<IngredientDto>> UpdateIngredientAsync(int ingredientId, IngredientForUpdate ingredientForUpdate)
         {
             var ingredientFromRepo = await _ingredients.GetAsync(ingredientId);
 
@@ -74,9 +94,13 @@ namespace KitchenHelper.API.Controllers
             return Ok(_mapper.Map<Ingredient>(ingredientFromRepo));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ingredientId"></param>
+        /// <returns>No Content</returns>
         [HttpDelete("{ingredientId}", Name = "DeleteIngredient")]
-        [HttpHead]
-        public async Task<ActionResult<Ingredient>> DeleteIngredientAsync(int ingredientId)
+        public async Task<ActionResult> DeleteIngredientAsync(int ingredientId)
         {
             var ingredientFromRepo = await _ingredients.GetAsync(ingredientId);
 
