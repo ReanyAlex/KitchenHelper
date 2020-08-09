@@ -59,11 +59,11 @@ namespace KitchenHelper.API.Core.Tests.Concrete
         {
             // Arrange
             Mock<data.Database.Sql.Abstract.IRecipes> recipeMock = new Mock<data.Database.Sql.Abstract.IRecipes>();
-            recipeMock.Setup(r => r.GetAll()).Returns(Task.FromResult(_recipeList));
+            recipeMock.Setup(r => r.GetListAsync()).Returns(Task.FromResult(_recipeList));
             Core.Concrete.Recipes recipes = new Core.Concrete.Recipes(recipeMock.Object);
 
             // Act
-            var result = recipes.GetAll().Result;
+            var result = recipes.GetListAsync().Result;
 
             // Assert
             Assert.NotNull(result);
