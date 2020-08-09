@@ -2,7 +2,7 @@
 
 namespace KitchenHelper.API.Data.Database.Sql.Abstract
 {
-    interface IMeasurements : IEntityFramework<Measurement>
+    public interface IMeasurements : IEntityFramework<Measurement>
     {
     }
 }

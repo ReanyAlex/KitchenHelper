@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KitchenHelper.API.Data.Database.Sql.Concrete
 {
-    class Measurements : IMeasurements, IDisposable
+    public class Measurements : IMeasurements, IDisposable
     {
         private KitchenHelperDbContext _context;
 

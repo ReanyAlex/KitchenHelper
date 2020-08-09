@@ -1,4 +1,4 @@
-﻿using KitchenHelper.API.Core.Abstract;
+﻿using KitchenHelper.API.Data.Database.Sql.Abstract;
 using KitchenHelper.API.Data.Entities.DbEntities;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KitchenHelper.API.Core.Concrete
 {
-    class Measurements : IMeasurements
+    public class Measurements : Abstract.IMeasurements
     {
 
         private readonly IMeasurements _dal;
