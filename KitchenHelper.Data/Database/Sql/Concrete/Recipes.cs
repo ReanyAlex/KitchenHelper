@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace KitchenHelper.API.Data.Database.Sql.Concrete
 {
-    public class Recipes : IRecipes
+    public class Recipes : IRecipes, IDisposable 
     {
-        private readonly KitchenHelperDbContext _context;
+        private KitchenHelperDbContext _context;
 
         public Recipes(KitchenHelperDbContext context)
         {
@@ -25,6 +25,21 @@ namespace KitchenHelper.API.Data.Database.Sql.Concrete
                                .ThenInclude(i => i.Ingredient)
                             .Include(r => r.RecipeSteps)
                             .ToListAsync();
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing && _context != null)
+            {
+                _context.Dispose();
+                _context = null;
+            }
         }
     }
 }
