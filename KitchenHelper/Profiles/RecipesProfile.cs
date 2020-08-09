@@ -8,6 +8,8 @@ namespace KitchenHelper.API.Profiles
         public RecipesProfile()
         { 
             CreateMap<Entities.DbEntities.Recipe, Entities.Dtos.RecipeDto>();
+            CreateMap<Entities.Parameters.RecipeForCreation, Entities.DbEntities.Recipe>();
+            CreateMap<Entities.Parameters.RecipeForUpdate, Entities.DbEntities.Recipe>();
         }
     }
 }

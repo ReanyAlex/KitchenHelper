@@ -25,7 +25,13 @@ namespace KitchenHelper.API.Data.Database.Sql.Concrete
         public async Task<Recipe> GetAsync(int id)
         {
             return await _context.Recipes
-                .Where(i => i.Id == id).FirstOrDefaultAsync();
+                            .Include(r => r.Ingredients)
+                               .ThenInclude(i => i.Measurement)
+                              .Include(r => r.Ingredients)
+                               .ThenInclude(i => i.Ingredient)
+                            .Include(r => r.RecipeSteps)
+                            .Where(i => i.Id == id)
+                            .FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Recipe>> GetListAsync()

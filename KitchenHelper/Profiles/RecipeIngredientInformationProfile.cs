@@ -8,6 +8,8 @@ namespace KitchenHelper.API.Profiles
         public RecipeIngredientInformationProfile()
         {
             CreateMap<Entities.DbEntities.RecipeIngredientInformation, Entities.Dtos.RecipeIngredientInformationDto>();
+            CreateMap<Entities.Parameters.RecipeIngredientInformationForCreation, Entities.DbEntities.RecipeIngredientInformation>();
+            CreateMap<Entities.Parameters.RecipeIngredientInformationForUpdate, Entities.DbEntities.RecipeIngredientInformation>();
         }
     }
 }
