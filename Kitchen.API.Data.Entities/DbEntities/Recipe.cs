@@ -17,6 +17,7 @@ namespace KitchenHelper.API.Data.Entities.DbEntities
         [MaxLength(2500)]
         public string Description { get; set; }
 
+        [MaxLength(100)]
         public string Category { get; set; }
 
         public ICollection<RecipeIngredientInformation> Ingredients { get; set; }
