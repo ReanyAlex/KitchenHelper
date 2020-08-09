@@ -3,14 +3,16 @@ using KitchenHelper.API.Data.Database.Sql;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KitchenHelper.API.Data.Migrations
 {
     [DbContext(typeof(KitchenHelperDbContext))]
-    partial class KitchenHelperDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200809191821_propdecorations")]
+    partial class propdecorations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
