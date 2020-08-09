@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.IO;
 using System.Linq;
@@ -32,44 +34,62 @@ namespace KitchenHelper.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           services.AddMvc(setupAction =>
+            services.AddControllers(setupAction =>
             {
-                setupAction.Filters.Add(
-                    new ProducesResponseTypeAttribute(StatusCodes.Status400BadRequest));
-                setupAction.Filters.Add(
-                    new ProducesResponseTypeAttribute(StatusCodes.Status406NotAcceptable));
-                setupAction.Filters.Add(
-                    new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
+                setupAction.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status400BadRequest));
+                setupAction.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status406NotAcceptable));
+                setupAction.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
 
                 setupAction.ReturnHttpNotAcceptable = true;
+                setupAction.RespectBrowserAcceptHeader = true;
+                setupAction.CacheProfiles.Add("240SecondsCacheProfile", new CacheProfile() { Duration = 240 });
 
-                var jsonOutputFormatter = setupAction.OutputFormatters
-                    .OfType<NewtonsoftJsonOutputFormatter>().FirstOrDefault();
+                var jsonOutputFormatter = setupAction.OutputFormatters.OfType<NewtonsoftJsonOutputFormatter>().FirstOrDefault();
 
-                if (jsonOutputFormatter != null 
+                if (jsonOutputFormatter != null
                     && jsonOutputFormatter.SupportedMediaTypes.Contains("text/json"))
                 {
-                    jsonOutputFormatter.SupportedMediaTypes.Remove("text/json");                  
+                    jsonOutputFormatter.SupportedMediaTypes.Remove("text/json");
                 }
             })
-            .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-
-            services.Configure<ApiBehaviorOptions>(options =>
+            .AddNewtonsoftJson(setupAction =>
             {
-                options.InvalidModelStateResponseFactory = actionContext =>
+                setupAction.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            })
+            .AddXmlDataContractSerializerFormatters()
+            .ConfigureApiBehaviorOptions(setupAction =>
+            {
+                setupAction.InvalidModelStateResponseFactory = context =>
                 {
-                    var actionExecutingContext =
-                        actionContext as Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext;
+                    var problemDetailsFactory = context.HttpContext.RequestServices.GetRequiredService<ProblemDetailsFactory>();
+                    var problemDetails = problemDetailsFactory.CreateValidationProblemDetails(context.HttpContext, context.ModelState);
+                    problemDetails.Detail = "See the errors field for details.";
+                    problemDetails.Instance = context.HttpContext.Request.Path;
 
-                    if (actionContext.ModelState.ErrorCount > 0
-                        && actionExecutingContext?.ActionArguments.Count == actionContext.ActionDescriptor.Parameters.Count)
+                    var actionExecutingContext = context as Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext;
+
+                    if ((context.ModelState.ErrorCount > 0) &&
+                                (actionExecutingContext?.ActionArguments.Count == context.ActionDescriptor.Parameters.Count))
                     {
-                        return new UnprocessableEntityObjectResult(actionContext.ModelState);
+                        problemDetails.Type = "https://courselibrary.com/modelvalidationproblem";
+                        problemDetails.Status = StatusCodes.Status422UnprocessableEntity;
+                        problemDetails.Title = "One or more validation errors occurred.";
+
+                        return new UnprocessableEntityObjectResult(problemDetails)
+                        {
+                            ContentTypes = { "application/problem+json" }
+                        };
                     }
 
-                    return new BadRequestObjectResult(actionContext.ModelState);
+                    problemDetails.Status = StatusCodes.Status400BadRequest;
+                    problemDetails.Title = "One or more errors on input occurred.";
+                    return new BadRequestObjectResult(problemDetails)
+                    {
+                        ContentTypes = { "application/problem+json" }
+                    };
                 };
-            });
+            })
+            .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -87,7 +107,6 @@ namespace KitchenHelper.API
                         Title = "KitchenHelper API",
                         Version = "1",
                         Description = "Through this API you can access Ingredients and Recipes",
-               
                     });
 
                 var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

@@ -16,6 +16,7 @@ namespace KitchenHelper.API.Data.Entities.DbEntities
         [MaxLength(2500)]
         public string Step { get; set; }
 
+        [Required]
         public int RecipeId { get; set; }
     }
 }
