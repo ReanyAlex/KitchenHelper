@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KitchenHelper.API.Core.Concrete
 {
-    class Ingredients : Abstract.IIngredients
+    public class Ingredients : Abstract.IIngredients
     {
         private readonly IIngredients _dal;
 

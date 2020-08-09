@@ -32,6 +32,9 @@ namespace KitchenHelper.API
 
             services.AddScoped<Core.Abstract.IRecipes, Core.Concrete.Recipes>();
             services.AddScoped<Data.Database.Sql.Abstract.IRecipes, Data.Database.Sql.Concrete.Recipes>();
+
+            services.AddScoped<Core.Abstract.IIngredients, Core.Concrete.Ingredients>();
+            services.AddScoped<Data.Database.Sql.Abstract.IIngredients, Data.Database.Sql.Concrete.Ingredients>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
