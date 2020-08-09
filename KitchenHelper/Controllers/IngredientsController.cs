@@ -51,7 +51,7 @@ namespace KitchenHelper.API.Controllers
         [HttpGet(Name = "GetIngredients")]
         public async Task<ActionResult<IEnumerable<IngredientDto>>> GetIngredientsAsync()
         {
-            var ingredientEntities = await _ingredients.GetIngredientsAsync();
+            var ingredientEntities = await _ingredients.GetListAsync();
 
             var ingredientDtosList = _mapper.Map<IEnumerable<IngredientDto>>(ingredientEntities);
             return Ok(ingredientDtosList);

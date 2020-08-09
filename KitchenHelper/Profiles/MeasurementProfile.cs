@@ -8,6 +8,8 @@ namespace KitchenHelper.API.Profiles
         public MeasurementProfile()
         {
             CreateMap<Entities.DbEntities.Measurement, Entities.Dtos.MeasurementDto>();
+            CreateMap<Entities.Parameters.MeasurementForCreation, Entities.DbEntities.Measurement>();
+            CreateMap<Entities.Parameters.MeasurementForUpdate, Entities.DbEntities.Measurement>();
         }
     }
 }

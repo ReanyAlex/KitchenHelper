@@ -39,5 +39,40 @@
             <param name="ingredientId"></param>
             <returns>No Content</returns>
         </member>
+        <member name="M:KitchenHelper.API.Controllers.MeasurementsController.CreateMeasurementAsync(KitchenHelper.API.Data.Entities.Parameters.MeasurementForCreation)">
+            <summary>
+            
+            </summary>
+            <param name="ingredientForCreation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KitchenHelper.API.Controllers.MeasurementsController.GetMeasurementsAsync">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:KitchenHelper.API.Controllers.MeasurementsController.GetMeasurementAsync(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="ingredientId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KitchenHelper.API.Controllers.MeasurementsController.UpdateMeasurementAsync(System.Int32,KitchenHelper.API.Data.Entities.Parameters.MeasurementForUpdate)">
+            <summary>
+            
+            </summary>
+            <param name="ingredientId"></param>
+            <param name="ingredientForUpdate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KitchenHelper.API.Controllers.MeasurementsController.DeleteMeasurementAsync(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="ingredientId"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

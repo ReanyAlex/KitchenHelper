@@ -1,4 +1,5 @@
 using AutoMapper;
+using KitchenHelper.API.Configuration;
 using KitchenHelper.API.Data.Database.Sql;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,11 +33,9 @@ namespace KitchenHelper.API
 
             services.AddDbContext<KitchenHelperDbContext>(o => o.UseSqlServer(Configuration.GetConnectionString("KitchenHelper")));
 
-            services.AddScoped<Core.Abstract.IRecipes, Core.Concrete.Recipes>();
-            services.AddScoped<Data.Database.Sql.Abstract.IRecipes, Data.Database.Sql.Concrete.Recipes>();
-
-            services.AddScoped<Core.Abstract.IIngredients, Core.Concrete.Ingredients>();
-            services.AddScoped<Data.Database.Sql.Abstract.IIngredients, Data.Database.Sql.Concrete.Ingredients>();
+            services.AddRecipeService();
+            services.AddIngredientService();
+            services.AddMeasurementService();
 
             services.AddSwaggerGen(setupAction =>
             {
