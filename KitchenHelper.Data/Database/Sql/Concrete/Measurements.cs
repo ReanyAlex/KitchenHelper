@@ -1,10 +1,12 @@
 ﻿using KitchenHelper.API.Data.Database.Sql.Abstract;
 using KitchenHelper.API.Data.Entities.DbEntities;
+using KitchenHelper.API.Data.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ResourceParameters = KitchenHelper.API.Data.Entities.ResourceParameters;
 
 namespace KitchenHelper.API.Data.Database.Sql.Concrete
 {
@@ -28,9 +30,19 @@ namespace KitchenHelper.API.Data.Database.Sql.Concrete
                 .Where(i => i.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Measurement>> GetListAsync()
+        public async Task<IEnumerable<Measurement>> GetListAsync(ResourceParameters.Measurements resourceParameters)
         {
-            return await _context.Measurements.ToListAsync();
+            ParameterChecks.CheckResourceParameters(resourceParameters);
+
+            var collection = _context.Measurements.AsQueryable<Measurement>();
+
+            if (!string.IsNullOrWhiteSpace(resourceParameters.SearchQuery))
+                collection = collection.Where(i => i.Name.Contains(resourceParameters.SearchQuery.Trim()));
+
+            if (!string.IsNullOrWhiteSpace(resourceParameters.OrderBy))
+                collection = resourceParameters.SortAsc ? collection.OrderBy(i => i.Name) : collection.OrderByDescending(i => i.Name);
+
+            return await collection.Skip((resourceParameters.PageNumber - 1) * resourceParameters.PageSize).Take(resourceParameters.PageSize).ToListAsync();
         }
 
         public void Update(Measurement entity)

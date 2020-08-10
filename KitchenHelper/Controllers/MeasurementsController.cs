@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ResourceParameters = KitchenHelper.API.Data.Entities.ResourceParameters;
 
 namespace KitchenHelper.API.Controllers
 {
@@ -49,9 +50,9 @@ namespace KitchenHelper.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet(Name = "GetMeasurements")]
-        public async Task<ActionResult<IEnumerable<MeasurementDto>>> GetMeasurementsAsync()
+        public async Task<ActionResult<IEnumerable<MeasurementDto>>> GetMeasurementsAsync([FromQuery] ResourceParameters.Measurements measurementsResourceParameters)
         {
-            var ingredientEntities = await _measurements.GetListAsync();
+            var ingredientEntities = await _measurements.GetListAsync(measurementsResourceParameters);
 
             var ingredientDtosList = _mapper.Map<IEnumerable<MeasurementDto>>(ingredientEntities);
             return Ok(ingredientDtosList);

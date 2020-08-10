@@ -3,12 +3,12 @@ using System.Threading.Tasks;
 
 namespace KitchenHelper.API.Data.Database.Sql.Abstract
 {
-    public interface IEntityFramework<T>
+    public interface IEntityFramework<T, U>
     {
         Task CreateAsync(T entity);
 
         Task<T> GetAsync(int id);
-        Task<IEnumerable<T>> GetListAsync();
+        Task<IEnumerable<T>> GetListAsync(U resourceParameters);
 
         void Update(T entity);
 
