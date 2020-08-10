@@ -11,11 +11,11 @@
             <param name="ingredientForCreation"></param>
             <returns>An ActionResult of type IngredientDto</returns>
         </member>
-        <member name="M:KitchenHelper.API.Controllers.IngredientsController.GetIngredientsAsync">
+        <member name="M:KitchenHelper.API.Controllers.IngredientsController.GetIngredientsAsync(KitchenHelper.API.Data.Entities.ResourceParameters.Ingredients)">
             <summary>
             Get Ingredient by the ingredients id
             </summary>
-            <returns>An ActionResult of type IEnumerable of IngredientDto</returns>
+            <returns>An ActionResult of type IEnumerable of IngredientDto</returns>a
         </member>
         <member name="M:KitchenHelper.API.Controllers.IngredientsController.GetIngredientAsync(System.Int32)">
             <summary>
@@ -46,7 +46,7 @@
             <param name="ingredientForCreation"></param>
             <returns></returns>
         </member>
-        <member name="M:KitchenHelper.API.Controllers.MeasurementsController.GetMeasurementsAsync">
+        <member name="M:KitchenHelper.API.Controllers.MeasurementsController.GetMeasurementsAsync(KitchenHelper.API.Data.Entities.ResourceParameters.Measurements)">
             <summary>
             
             </summary>

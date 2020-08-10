@@ -3,6 +3,7 @@ using KitchenHelper.API.Data.Entities.DbEntities;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ResourceParameters = KitchenHelper.API.Data.Entities.ResourceParameters;
 
 namespace KitchenHelper.API.Core.Concrete
 {
@@ -36,9 +37,9 @@ namespace KitchenHelper.API.Core.Concrete
             return await _dal.GetAsync(measurementId);
         }
 
-        public async Task<IEnumerable<Measurement>> GetListAsync()
+        public async Task<IEnumerable<Measurement>> GetListAsync(ResourceParameters.Measurements measurementsResourceParameters)
         {
-            return await _dal.GetListAsync();
+            return await _dal.GetListAsync(measurementsResourceParameters);
         }
 
         public async Task<bool> SaveAsync()

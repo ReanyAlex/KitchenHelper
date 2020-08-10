@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ResourceParameters = KitchenHelper.API.Data.Entities.ResourceParameters;
 
 namespace KitchenHelper.API.Controllers
 {
@@ -42,9 +43,9 @@ namespace KitchenHelper.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet(Name = "GetRecipes")]
         [HttpHead]
-        public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipes()
+        public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipes([FromQuery] ResourceParameters.Recipes recipesResourceParameters)
         {
-            var recipeEntities = await _recipes.GetListAsync();
+            var recipeEntities = await _recipes.GetListAsync(recipesResourceParameters);
 
             var recipeDtosList = _mapper.Map<IEnumerable<RecipeDto>>(recipeEntities);
             return Ok(recipeDtosList);

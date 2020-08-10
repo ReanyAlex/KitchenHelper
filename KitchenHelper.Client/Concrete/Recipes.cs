@@ -1,6 +1,7 @@
 ﻿using KitchenHelper.API.Data.Entities.DbEntities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ResourceParameters = KitchenHelper.API.Data.Entities.ResourceParameters;
 
 namespace KitchenHelper.API.Core.Concrete
 {
@@ -33,9 +34,9 @@ namespace KitchenHelper.API.Core.Concrete
             return await _dal.GetAsync(recipeId);
         }
 
-        public async Task<IEnumerable<Recipe>> GetListAsync()
+        public async Task<IEnumerable<Recipe>> GetListAsync(ResourceParameters.Recipes recipesResourceParameters)
         {
-            return await _dal.GetListAsync();
+            return await _dal.GetListAsync(recipesResourceParameters);
         }
 
         public async Task<bool> SaveAsync()

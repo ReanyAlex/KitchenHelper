@@ -1,10 +1,12 @@
 ﻿using KitchenHelper.API.Data.Database.Sql.Abstract;
 using KitchenHelper.API.Data.Entities.DbEntities;
+using KitchenHelper.API.Data.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ResourceParameters = KitchenHelper.API.Data.Entities.ResourceParameters;
 
 namespace KitchenHelper.API.Data.Database.Sql.Concrete
 {
@@ -34,17 +36,27 @@ namespace KitchenHelper.API.Data.Database.Sql.Concrete
                             .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Recipe>> GetListAsync()
+        public async Task<IEnumerable<Recipe>> GetListAsync(ResourceParameters.Recipes resourceParameters)
         {
-            return await _context.Recipes
-                            .Include(r => r.Ingredients)
-                               .ThenInclude(i => i.Measurement)
-                              .Include(r => r.Ingredients)
-                               .ThenInclude(i => i.Ingredient)
-                            .Include(r => r.RecipeSteps)
-                            .ToListAsync();
-        }
+            ParameterChecks.CheckResourceParameters(resourceParameters);
 
+            var collection = _context.Recipes.AsQueryable<Recipe>();
+
+            collection = collection.Include(r => r.Ingredients)
+                                       .ThenInclude(i => i.Measurement)
+                                      .Include(r => r.Ingredients)
+                                       .ThenInclude(i => i.Ingredient)
+                                    .Include(r => r.RecipeSteps);
+
+            if (!string.IsNullOrWhiteSpace(resourceParameters.SearchQuery))
+                collection = collection.Where(i => i.Name.Contains(resourceParameters.SearchQuery.Trim()));
+                           
+            if (!string.IsNullOrWhiteSpace(resourceParameters.OrderBy))
+                collection = resourceParameters.SortAsc ? collection.OrderBy(i => i.Name) : collection.OrderByDescending(i => i.Name);
+
+            return await collection.Skip((resourceParameters.PageNumber - 1) * resourceParameters.PageSize).Take(resourceParameters.PageSize).ToListAsync();
+        }
+    
         public void Update(Recipe entity)
         {
             // No Implementation

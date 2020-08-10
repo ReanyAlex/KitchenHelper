@@ -1,6 +1,7 @@
 ﻿using KitchenHelper.API.Data.Entities.DbEntities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ResourceParameters = KitchenHelper.API.Data.Entities.ResourceParameters;
 
 namespace KitchenHelper.API.Core.Abstract
 {
@@ -9,7 +10,7 @@ namespace KitchenHelper.API.Core.Abstract
         Task CreateAsync(Recipe recipe);
 
         Task<Recipe> GetAsync(int recipeId);
-        Task<IEnumerable<Recipe>> GetListAsync();
+        Task<IEnumerable<Recipe>> GetListAsync(ResourceParameters.Recipes recipesResourceParameters);
 
         void Update(Recipe recipe);
 
