@@ -102,6 +102,24 @@
             <param name="recipeForUpdate">Request Body for updating a recipe</param>
             <returns></returns>
         </member>
+        <member name="M:KitchenHelper.API.Controllers.RecipesController.UpdateRecipeAsync(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{KitchenHelper.API.Data.Entities.Parameters.RecipeForUpdate})">
+            <summary>
+            Partially update a recipe
+            </summary>
+            <param name="recipeId">The id of the recipe</param>
+            <param name="patchDocument">The set of operations to apply to the recipe</param>
+            <returns></returns>
+            <remarks>
+            Sample request (this request updates the author's first name)\
+            [\
+                {\
+                    "op": "replace",\
+                    "path": "/name",\
+                    "value": "new recipe name"\
+                }\
+            ]
+            </remarks>
+        </member>
         <member name="M:KitchenHelper.API.Controllers.RecipesController.DeleteRecipeAsync(System.Int32)">
             <summary>
             Delete an recipe

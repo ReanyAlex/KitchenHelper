@@ -10,6 +10,7 @@ namespace KitchenHelper.API.Profiles
             CreateMap<Entities.DbEntities.RecipeStep, Entities.Dtos.RecipeStepDto>();
             CreateMap<Entities.Parameters.RecipeStepForCreation, Entities.DbEntities.RecipeStep>();
             CreateMap<Entities.Parameters.RecipeStepForUpdate, Entities.DbEntities.RecipeStep>();
+            CreateMap<Entities.DbEntities.RecipeStep, Entities.Parameters.RecipeStepForUpdate>();
         }
     }
 }

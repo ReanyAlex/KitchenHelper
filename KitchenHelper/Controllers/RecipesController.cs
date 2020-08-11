@@ -4,6 +4,7 @@ using KitchenHelper.API.Data.Entities.DbEntities;
 using KitchenHelper.API.Data.Entities.Dtos;
 using KitchenHelper.API.Data.Entities.Parameters;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -89,6 +90,43 @@ namespace KitchenHelper.API.Controllers
             if (recipeFromRepo == null) return NotFound();
 
             _mapper.Map(recipeForUpdate, recipeFromRepo);
+
+            _recipes.Update(recipeFromRepo);
+            await _recipes.SaveAsync();
+
+            return Ok(_mapper.Map<Recipe>(recipeFromRepo));
+        }
+
+        /// <summary>
+        /// Partially update a recipe
+        /// </summary>
+        /// <param name="recipeId">The id of the recipe</param>
+        /// <param name="patchDocument">The set of operations to apply to the recipe</param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Sample request (this request updates the author's first name)\
+        /// [\
+        ///     {\
+        ///         "op": "replace",\
+        ///         "path": "/name",\
+        ///         "value": "new recipe name"\
+        ///     }\
+        /// ]
+        /// </remarks>
+        [HttpPatch("{recipeId}", Name = "PatchRecipe")]
+        public async Task<ActionResult<RecipeDto>> UpdateRecipeAsync(int recipeId, JsonPatchDocument<RecipeForUpdate> patchDocument)
+        {
+            var recipeFromRepo = await _recipes.GetAsync(recipeId);
+
+            if (recipeFromRepo == null) return NotFound();
+
+            // map to DTO to apply the patch to
+            var recipe = _mapper.Map<RecipeForUpdate>(recipeFromRepo);
+            patchDocument.ApplyTo(recipe, ModelState);
+
+            if (!ModelState.IsValid) return new UnprocessableEntityObjectResult(ModelState);
+            
+            _mapper.Map(recipe, recipeFromRepo);
 
             _recipes.Update(recipeFromRepo);
             await _recipes.SaveAsync();
