@@ -11,6 +11,8 @@ namespace KitchenHelper.API.Profiles
             CreateMap<Entities.DbEntities.Ingredient, Entities.Dtos.IngredientDto>();
             CreateMap<Entities.Parameters.IngredientForCreation, Entities.DbEntities.Ingredient>();
             CreateMap<Entities.Parameters.IngredientForUpdate, Entities.DbEntities.Ingredient>();
+            CreateMap<Entities.DbEntities.Ingredient, Entities.Parameters.IngredientForUpdate>();
+
         }
     }
 }
