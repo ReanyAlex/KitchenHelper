@@ -26,6 +26,17 @@ namespace KitchenHelper.API.Controllers
         }
 
         /// <summary>
+        /// Allowed Actions on measurements controller
+        /// </summary>
+        /// <returns></returns>
+        [HttpOptions]
+        public IActionResult GetMeasurementsOptions()
+        {
+            Response.Headers.Add("Allow", "OPTIONS, GET, POST, PUT, DELETE");
+            return Ok();
+        }
+
+        /// <summary>
         /// Create an measurement
         /// </summary>
         /// <param name="measurementForCreation">Request Body for Creating a new measurement</param>

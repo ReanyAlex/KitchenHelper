@@ -25,6 +25,17 @@ namespace KitchenHelper.API.Controllers
         }
 
         /// <summary>
+        /// Allowed Actions on ingredients controller
+        /// </summary>
+        /// <returns></returns>
+        [HttpOptions]
+        public IActionResult GetIngredientsOptions()
+        {
+            Response.Headers.Add("Allow", "OPTIONS, GET, POST, PUT, PATCH, DELETE");
+            return Ok();
+        }
+
+        /// <summary>
         /// Create an ingredient
         /// </summary>
         /// <param name="ingredientForCreation">Request Body for creating a new ingredient</param>
