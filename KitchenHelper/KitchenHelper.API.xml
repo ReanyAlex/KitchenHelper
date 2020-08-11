@@ -4,6 +4,12 @@
         <name>KitchenHelper.API</name>
     </assembly>
     <members>
+        <member name="M:KitchenHelper.API.Controllers.IngredientsController.GetIngredientsOptions">
+            <summary>
+            Allowed Actions on ingredients controller
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:KitchenHelper.API.Controllers.IngredientsController.CreateIngredientAsync(KitchenHelper.API.Data.Entities.Parameters.IngredientForCreation)">
             <summary>
             Create an ingredient
@@ -39,6 +45,12 @@
             <param name="ingredientId">The id of the ingredient</param>
             <returns>No Content</returns>
         </member>
+        <member name="M:KitchenHelper.API.Controllers.MeasurementsController.GetMeasurementsOptions">
+            <summary>
+            Allowed Actions on measurements controller
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:KitchenHelper.API.Controllers.MeasurementsController.CreateMeasurementAsync(KitchenHelper.API.Data.Entities.Parameters.MeasurementForCreation)">
             <summary>
             Create an measurement
@@ -72,6 +84,12 @@
             Delete a measurement
             </summary>
             <param name="measurementId">The id of the measurement</param>
+            <returns></returns>
+        </member>
+        <member name="M:KitchenHelper.API.Controllers.RecipesController.GetRecipesOptions">
+            <summary>
+            Allowed Actions on recipes controller
+            </summary>
             <returns></returns>
         </member>
         <member name="M:KitchenHelper.API.Controllers.RecipesController.CreateRecipeAsync(KitchenHelper.API.Data.Entities.Parameters.RecipeForCreation)">
