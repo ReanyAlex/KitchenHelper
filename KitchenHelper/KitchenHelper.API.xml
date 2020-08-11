@@ -6,72 +6,107 @@
     <members>
         <member name="M:KitchenHelper.API.Controllers.IngredientsController.CreateIngredientAsync(KitchenHelper.API.Data.Entities.Parameters.IngredientForCreation)">
             <summary>
-            
+            Create an ingredient
             </summary>
-            <param name="ingredientForCreation"></param>
+            <param name="ingredientForCreation">Request Body for creating a new ingredient</param>
             <returns>An ActionResult of type IngredientDto</returns>
         </member>
         <member name="M:KitchenHelper.API.Controllers.IngredientsController.GetIngredientsAsync(KitchenHelper.API.Data.Entities.ResourceParameters.Ingredients)">
             <summary>
-            Get Ingredient by the ingredients id
+            Get a list of ingredients. Can search by ingredients name
             </summary>
-            <returns>An ActionResult of type IEnumerable of IngredientDto</returns>a
+            <returns></returns>
         </member>
         <member name="M:KitchenHelper.API.Controllers.IngredientsController.GetIngredientAsync(System.Int32)">
             <summary>
-            
+            Get an ingredient by the ingredient id
             </summary>
-            <param name="ingredientId"></param>
+            <param name="ingredientId">The id of the ingredient</param>
             <returns>An ActionResult of type IngredientDto</returns>
         </member>
         <member name="M:KitchenHelper.API.Controllers.IngredientsController.UpdateIngredientAsync(System.Int32,KitchenHelper.API.Data.Entities.Parameters.IngredientForUpdate)">
             <summary>
-            
+            Update an ingredient
             </summary>
-            <param name="ingredientId"></param>
-            <param name="ingredientForUpdate"></param>
+            <param name="ingredientId">The id of the ingredient</param>
+            <param name="ingredientForUpdate">Request Body for updating an ingredient</param>
             <returns>An ActionResult of type IngredientDto</returns>
         </member>
         <member name="M:KitchenHelper.API.Controllers.IngredientsController.DeleteIngredientAsync(System.Int32)">
             <summary>
-            
+            Delete an ingredient
             </summary>
-            <param name="ingredientId"></param>
+            <param name="ingredientId">The id of the ingredient</param>
             <returns>No Content</returns>
         </member>
         <member name="M:KitchenHelper.API.Controllers.MeasurementsController.CreateMeasurementAsync(KitchenHelper.API.Data.Entities.Parameters.MeasurementForCreation)">
             <summary>
-            
+            Create an measurement
             </summary>
-            <param name="ingredientForCreation"></param>
+            <param name="measurementForCreation">Request Body for Creating a new measurement</param>
             <returns></returns>
         </member>
         <member name="M:KitchenHelper.API.Controllers.MeasurementsController.GetMeasurementsAsync(KitchenHelper.API.Data.Entities.ResourceParameters.Measurements)">
             <summary>
-            
+            Get a list of measurements. Can search by measurements name
             </summary>
             <returns></returns>
         </member>
         <member name="M:KitchenHelper.API.Controllers.MeasurementsController.GetMeasurementAsync(System.Int32)">
             <summary>
-            
+            Get an measurement by the measurement id
             </summary>
-            <param name="ingredientId"></param>
+            <param name="measurementId">The id of the measurement</param>
             <returns></returns>
         </member>
         <member name="M:KitchenHelper.API.Controllers.MeasurementsController.UpdateMeasurementAsync(System.Int32,KitchenHelper.API.Data.Entities.Parameters.MeasurementForUpdate)">
             <summary>
-            
+            Update a measurement
             </summary>
-            <param name="ingredientId"></param>
-            <param name="ingredientForUpdate"></param>
+            <param name="measurementId">The id of the measurement</param>
+            <param name="measurementForUpdate">Request Body for updating a measurement</param>
             <returns></returns>
         </member>
         <member name="M:KitchenHelper.API.Controllers.MeasurementsController.DeleteMeasurementAsync(System.Int32)">
             <summary>
-            
+            Delete a measurement
             </summary>
-            <param name="ingredientId"></param>
+            <param name="measurementId">The id of the measurement</param>
+            <returns></returns>
+        </member>
+        <member name="M:KitchenHelper.API.Controllers.RecipesController.CreateRecipeAsync(KitchenHelper.API.Data.Entities.Parameters.RecipeForCreation)">
+            <summary>
+            Create a recipe
+            </summary>
+            <param name="recipeForCreation">Request Body for creating a new recipe</param>
+            <returns></returns>
+        </member>
+        <member name="M:KitchenHelper.API.Controllers.RecipesController.GetRecipes(KitchenHelper.API.Data.Entities.ResourceParameters.Recipes)">
+            <summary>
+            Get a list of recipes. Can search by recipes name
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:KitchenHelper.API.Controllers.RecipesController.GetRecipeAsync(System.Int32)">
+            <summary>
+            Get an recipe by the recipe id
+            </summary>
+            <param name="recipeId">The id of the recipe</param>
+            <returns></returns>
+        </member>
+        <member name="M:KitchenHelper.API.Controllers.RecipesController.UpdateRecipeAsync(System.Int32,KitchenHelper.API.Data.Entities.Parameters.RecipeForUpdate)">
+            <summary>
+            Update an recipe
+            </summary>
+            <param name="recipeId">The id of the recipe</param>
+            <param name="recipeForUpdate">Request Body for updating a recipe</param>
+            <returns></returns>
+        </member>
+        <member name="M:KitchenHelper.API.Controllers.RecipesController.DeleteRecipeAsync(System.Int32)">
+            <summary>
+            Delete an recipe
+            </summary>
+            <param name="recipeId">The id of the recipe</param>
             <returns></returns>
         </member>
     </members>
