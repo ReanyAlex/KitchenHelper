@@ -26,25 +26,25 @@ namespace KitchenHelper.API.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Create an measurement
         /// </summary>
-        /// <param name="ingredientForCreation"></param>
+        /// <param name="measurementForCreation">Request Body for Creating a new measurement</param>
         /// <returns></returns>
         [HttpPost(Name = "CreateMeasurement")]
-        public async Task<ActionResult<MeasurementDto>> CreateMeasurementAsync(MeasurementForCreation ingredientForCreation)
+        public async Task<ActionResult<MeasurementDto>> CreateMeasurementAsync(MeasurementForCreation measurementForCreation)
         {
-            var ingredientToAdd = _mapper.Map<Measurement>(ingredientForCreation);
-            await _measurements.CreateAsync(ingredientToAdd);
+            var measurementToAdd = _mapper.Map<Measurement>(measurementForCreation);
+            await _measurements.CreateAsync(measurementToAdd);
             await _measurements.SaveAsync();
 
             return CreatedAtRoute(
                 "GetMeasurement",
-                new { ingredientId = ingredientToAdd.Id },
-                _mapper.Map<MeasurementDto>(ingredientToAdd));
+                new { measurementId = measurementToAdd.Id },
+                _mapper.Map<MeasurementDto>(measurementToAdd));
         }
 
         /// <summary>
-        /// 
+        /// Get a list of measurements. Can search by measurements name
         /// </summary>
         /// <returns></returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -52,62 +52,62 @@ namespace KitchenHelper.API.Controllers
         [HttpGet(Name = "GetMeasurements")]
         public async Task<ActionResult<IEnumerable<MeasurementDto>>> GetMeasurementsAsync([FromQuery] ResourceParameters.Measurements measurementsResourceParameters)
         {
-            var ingredientEntities = await _measurements.GetListAsync(measurementsResourceParameters);
+            var measurementEntities = await _measurements.GetListAsync(measurementsResourceParameters);
 
-            var ingredientDtosList = _mapper.Map<IEnumerable<MeasurementDto>>(ingredientEntities);
-            return Ok(ingredientDtosList);
+            var measurementDtosList = _mapper.Map<IEnumerable<MeasurementDto>>(measurementEntities);
+            return Ok(measurementDtosList);
         }
 
         /// <summary>
-        /// 
+        /// Get an measurement by the measurement id
         /// </summary>
-        /// <param name="ingredientId"></param>
+        /// <param name="measurementId">The id of the measurement</param>
         /// <returns></returns>
-        [HttpGet("{ingredientId}", Name = "GetMeasurement")]
-        public async Task<ActionResult<MeasurementDto>> GetMeasurementAsync(int ingredientId)
+        [HttpGet("{measurementId}", Name = "GetMeasurement")]
+        public async Task<ActionResult<MeasurementDto>> GetMeasurementAsync(int measurementId)
         {
-            var ingredientFromRepo = await _measurements.GetAsync(ingredientId);
+            var measurementFromRepo = await _measurements.GetAsync(measurementId);
 
-            if (ingredientFromRepo == null) return NotFound();
+            if (measurementFromRepo == null) return NotFound();
 
-            var ingredientDto = _mapper.Map<MeasurementDto>(ingredientFromRepo);
-            return Ok(ingredientDto);
+            var measurementDto = _mapper.Map<MeasurementDto>(measurementFromRepo);
+            return Ok(measurementDto);
         }
 
         /// <summary>
-        /// 
+        /// Update a measurement
         /// </summary>
-        /// <param name="ingredientId"></param>
-        /// <param name="ingredientForUpdate"></param>
+        /// <param name="measurementId">The id of the measurement</param>
+        /// <param name="measurementForUpdate">Request Body for updating a measurement</param>
         /// <returns></returns>
-        [HttpPut("{ingredientId}", Name = "UpdateMeasurement")]
-        public async Task<ActionResult<MeasurementDto>> UpdateMeasurementAsync(int ingredientId, MeasurementForUpdate ingredientForUpdate)
+        [HttpPut("{measurementId}", Name = "UpdateMeasurement")]
+        public async Task<ActionResult<MeasurementDto>> UpdateMeasurementAsync(int measurementId, MeasurementForUpdate measurementForUpdate)
         {
-            var ingredientFromRepo = await _measurements.GetAsync(ingredientId);
+            var measurementFromRepo = await _measurements.GetAsync(measurementId);
 
-            if (ingredientFromRepo == null) return NotFound();
+            if (measurementFromRepo == null) return NotFound();
 
-            _mapper.Map(ingredientForUpdate, ingredientFromRepo);
+            _mapper.Map(measurementForUpdate, measurementFromRepo);
 
-            _measurements.Update(ingredientFromRepo);
+            _measurements.Update(measurementFromRepo);
             await _measurements.SaveAsync();
 
-            return Ok(_mapper.Map<Measurement>(ingredientFromRepo));
+            return Ok(_mapper.Map<Measurement>(measurementFromRepo));
         }
 
         /// <summary>
-        /// 
+        /// Delete a measurement
         /// </summary>
-        /// <param name="ingredientId"></param>
+        /// <param name="measurementId">The id of the measurement</param>
         /// <returns></returns>
-        [HttpDelete("{ingredientId}", Name = "DeleteMeasurement")]
-        public async Task<ActionResult> DeleteMeasurementAsync(int ingredientId)
+        [HttpDelete("{measurementId}", Name = "DeleteMeasurement")]
+        public async Task<ActionResult> DeleteMeasurementAsync(int measurementId)
         {
-            var ingredientFromRepo = await _measurements.GetAsync(ingredientId);
+            var measurementFromRepo = await _measurements.GetAsync(measurementId);
 
-            if (ingredientFromRepo == null) return NotFound();
+            if (measurementFromRepo == null) return NotFound();
 
-            _measurements.Delete(ingredientFromRepo);
+            _measurements.Delete(measurementFromRepo);
             await _measurements.SaveAsync();
 
             return NoContent();

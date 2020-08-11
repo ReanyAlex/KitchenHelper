@@ -3,7 +3,6 @@ using KitchenHelper.API.Core.Abstract;
 using KitchenHelper.API.Data.Entities.DbEntities;
 using KitchenHelper.API.Data.Entities.Dtos;
 using KitchenHelper.API.Data.Entities.Parameters;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -26,9 +25,9 @@ namespace KitchenHelper.API.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Create an ingredient
         /// </summary>
-        /// <param name="ingredientForCreation"></param>
+        /// <param name="ingredientForCreation">Request Body for creating a new ingredient</param>
         /// <returns>An ActionResult of type IngredientDto</returns>
         [HttpPost(Name = "CreateIngredient")]
         public async Task<ActionResult<IngredientDto>> CreateIngredientAsync(IngredientForCreation ingredientForCreation)
@@ -44,11 +43,9 @@ namespace KitchenHelper.API.Controllers
         }
 
         /// <summary>
-        /// Get Ingredient by the ingredients id
+        /// Get a list of ingredients. Can search by ingredients name
         /// </summary>
-        /// <returns>An ActionResult of type IEnumerable of IngredientDto</returns>a
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        /// <returns></returns>
         [HttpGet(Name = "GetIngredients")]
         public async Task<ActionResult<IEnumerable<IngredientDto>>> GetIngredientsAsync([FromQuery] ResourceParameters.Ingredients ingredientsResourceParameters)
         {
@@ -59,9 +56,9 @@ namespace KitchenHelper.API.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Get an ingredient by the ingredient id
         /// </summary>
-        /// <param name="ingredientId"></param>
+        /// <param name="ingredientId">The id of the ingredient</param>
         /// <returns>An ActionResult of type IngredientDto</returns>
         [HttpGet("{ingredientId}", Name = "GetIngredient")]
         public async Task<ActionResult<IngredientDto>> GetIngredientAsync(int ingredientId)
@@ -75,10 +72,10 @@ namespace KitchenHelper.API.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Update an ingredient
         /// </summary>
-        /// <param name="ingredientId"></param>
-        /// <param name="ingredientForUpdate"></param>
+        /// <param name="ingredientId">The id of the ingredient</param>
+        /// <param name="ingredientForUpdate">Request Body for updating an ingredient</param>
         /// <returns>An ActionResult of type IngredientDto</returns>
         [HttpPut("{ingredientId}", Name = "UpdateIngredient")]
         public async Task<ActionResult<IngredientDto>> UpdateIngredientAsync(int ingredientId, IngredientForUpdate ingredientForUpdate)
@@ -96,9 +93,9 @@ namespace KitchenHelper.API.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Delete an ingredient
         /// </summary>
-        /// <param name="ingredientId"></param>
+        /// <param name="ingredientId">The id of the ingredient</param>
         /// <returns>No Content</returns>
         [HttpDelete("{ingredientId}", Name = "DeleteIngredient")]
         public async Task<ActionResult> DeleteIngredientAsync(int ingredientId)

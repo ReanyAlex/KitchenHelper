@@ -18,27 +18,35 @@ namespace KitchenHelper.API.Controllers
         private readonly IRecipes _recipes;
         private readonly IMapper _mapper;
 
+
         public RecipesController(IRecipes recipes, IMapper mapper)
         {
             _recipes = recipes ?? throw new System.ArgumentNullException(nameof(recipes));
             _mapper = mapper ?? throw new System.ArgumentNullException(nameof(mapper));
         }
 
-        
+        /// <summary>
+        /// Create a recipe
+        /// </summary>
+        /// <param name="recipeForCreation">Request Body for creating a new recipe</param>
+        /// <returns></returns>
         [HttpPost(Name = "CreateRecipe")]
-        public async Task<ActionResult<RecipeDto>> CreateRecipeAsync(RecipeForCreation ingredientForCreation)
+        public async Task<ActionResult<RecipeDto>> CreateRecipeAsync(RecipeForCreation recipeForCreation)
         {
-            var ingredientToAdd = _mapper.Map<Recipe>(ingredientForCreation);
-            await _recipes.CreateAsync(ingredientToAdd);
+            var recipeToAdd = _mapper.Map<Recipe>(recipeForCreation);
+            await _recipes.CreateAsync(recipeToAdd);
             await _recipes.SaveAsync();
 
             return CreatedAtRoute(
                 "GetRecipe",
-                new { ingredientId = ingredientToAdd.Id },
-                _mapper.Map<RecipeDto>(ingredientToAdd));
+                new { recipeId = recipeToAdd.Id },
+                _mapper.Map<RecipeDto>(recipeToAdd));
         }
 
-
+        /// <summary>
+        /// Get a list of recipes. Can search by recipes name
+        /// </summary>
+        /// <returns></returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet(Name = "GetRecipes")]
@@ -51,43 +59,56 @@ namespace KitchenHelper.API.Controllers
             return Ok(recipeDtosList);
         }
 
-
-        [HttpGet("{ingredientId}", Name = "GetRecipe")]
-        public async Task<ActionResult<RecipeDto>> GetRecipeAsync(int ingredientId)
+        /// <summary>
+        /// Get an recipe by the recipe id
+        /// </summary>
+        /// <param name="recipeId">The id of the recipe</param>
+        /// <returns></returns>
+        [HttpGet("{recipeId}", Name = "GetRecipe")]
+        public async Task<ActionResult<RecipeDto>> GetRecipeAsync(int recipeId)
         {
-            var ingredientFromRepo = await _recipes.GetAsync(ingredientId);
+            var recipeFromRepo = await _recipes.GetAsync(recipeId);
 
-            if (ingredientFromRepo == null) return NotFound();
+            if (recipeFromRepo == null) return NotFound();
 
-            var ingredientDto = _mapper.Map<RecipeDto>(ingredientFromRepo);
-            return Ok(ingredientDto);
+            var recipeDto = _mapper.Map<RecipeDto>(recipeFromRepo);
+            return Ok(recipeDto);
         }
 
-
-        [HttpPut("{ingredientId}", Name = "UpdateRecipe")]
-        public async Task<ActionResult<RecipeDto>> UpdateRecipeAsync(int ingredientId, RecipeForUpdate ingredientForUpdate)
+        /// <summary>
+        /// Update an recipe
+        /// </summary>
+        /// <param name="recipeId">The id of the recipe</param>
+        /// <param name="recipeForUpdate">Request Body for updating a recipe</param>
+        /// <returns></returns>
+        [HttpPut("{recipeId}", Name = "UpdateRecipe")]
+        public async Task<ActionResult<RecipeDto>> UpdateRecipeAsync(int recipeId, RecipeForUpdate recipeForUpdate)
         {
-            var ingredientFromRepo = await _recipes.GetAsync(ingredientId);
+            var recipeFromRepo = await _recipes.GetAsync(recipeId);
 
-            if (ingredientFromRepo == null) return NotFound();
+            if (recipeFromRepo == null) return NotFound();
 
-            _mapper.Map(ingredientForUpdate, ingredientFromRepo);
+            _mapper.Map(recipeForUpdate, recipeFromRepo);
 
-            _recipes.Update(ingredientFromRepo);
+            _recipes.Update(recipeFromRepo);
             await _recipes.SaveAsync();
 
-            return Ok(_mapper.Map<Recipe>(ingredientFromRepo));
+            return Ok(_mapper.Map<Recipe>(recipeFromRepo));
         }
 
-      
-        [HttpDelete("{ingredientId}", Name = "DeleteRecipe")]
-        public async Task<ActionResult> DeleteRecipeAsync(int ingredientId)
+        /// <summary>
+        /// Delete an recipe
+        /// </summary>
+        /// <param name="recipeId">The id of the recipe</param>
+        /// <returns></returns>
+        [HttpDelete("{recipeId}", Name = "DeleteRecipe")]
+        public async Task<ActionResult> DeleteRecipeAsync(int recipeId)
         {
-            var ingredientFromRepo = await _recipes.GetAsync(ingredientId);
+            var recipeFromRepo = await _recipes.GetAsync(recipeId);
 
-            if (ingredientFromRepo == null) return NotFound();
+            if (recipeFromRepo == null) return NotFound();
 
-            _recipes.Delete(ingredientFromRepo);
+            _recipes.Delete(recipeFromRepo);
             await _recipes.SaveAsync();
 
             return NoContent();
