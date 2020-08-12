@@ -17,11 +17,13 @@ namespace KitchenHelper.API.Controllers
     {
         private readonly IUsersRecipes _usersRecipes;
         private readonly IRecipes _recipes;
+        private readonly IUsers _users;
         private readonly IMapper _mapper;
 
-        public UsersRecipesController(IUsersRecipes usersRecipes, IRecipes recipes, IMapper mapper)
+        public UsersRecipesController(IUsersRecipes usersRecipes, IUsers users, IRecipes recipes, IMapper mapper)
         {
             _usersRecipes = usersRecipes ?? throw new ArgumentNullException(nameof(usersRecipes));
+            _users = users ?? throw new ArgumentNullException(nameof(users));
             _recipes = recipes ?? throw new ArgumentNullException(nameof(recipes));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
@@ -46,7 +48,9 @@ namespace KitchenHelper.API.Controllers
         [HttpPost(Name = "AddUsersRecipe")]
         public async Task<ActionResult<IngredientDto>> AddUsersRecipeAsync(int userId, UsersRecipeForCreation usersRecipeForCreation)
         {
-            //check if user exist (No methd for this yet)
+            var user = await _users.GetAsync(userId);
+            if (user == null) return NotFound();
+
             var recipe = await _recipes.GetAsync(usersRecipeForCreation.RecipeId);
             if (recipe == null) return NotFound();
           
@@ -72,7 +76,8 @@ namespace KitchenHelper.API.Controllers
         [HttpGet(Name = "GetUsersRecipes")]
         public async Task<ActionResult<IngredientDto>> GetUsersRecipesAsync(int userId, [FromQuery] ResourceParameters.Recipes recipesResourceParameters)
         {
-            //check if user exist (No methd for this yet)
+            var user = await _users.GetAsync(userId);
+            if (user == null) return NotFound();
 
             var recipeEntities = await _usersRecipes.GetListAsync(userId, recipesResourceParameters);
 
@@ -88,7 +93,9 @@ namespace KitchenHelper.API.Controllers
         [HttpGet("{recipeId}", Name = "GetUsersRecipe")]
         public async Task<ActionResult<IngredientDto>> GetUsersRecipeAsync([FromRoute] UsersRecipeForRetrieval usersRecipeForRetrieval)
         {
-            //check if user exist (No methd for this yet)
+            var user = await _users.GetAsync(usersRecipeForRetrieval.UserId);
+            if (user == null) return NotFound();
+
             var usersRecipeToRetrieve = _mapper.Map<UsersRecipe>(usersRecipeForRetrieval);
 
             var recipeEntities = await _usersRecipes.GetAsync(usersRecipeToRetrieve);
@@ -105,7 +112,9 @@ namespace KitchenHelper.API.Controllers
         [HttpDelete("{recipeId}", Name = "RemoveUsersRecipe")]
         public async Task<ActionResult> RemoveUsersRecipeAsync([FromRoute] UsersRecipeForDeletion usersRecipeForDeletion)
         {
-            //check if user exist (No methd for this yet)
+            var user = await _users.GetAsync(usersRecipeForDeletion.UserId);
+            if (user == null) return NotFound();
+
             var recipe = await _recipes.GetAsync(usersRecipeForDeletion.RecipeId);
             if (recipe == null) return NotFound();
 
