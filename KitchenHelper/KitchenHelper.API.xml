@@ -145,5 +145,11 @@
             <param name="recipeId">The id of the recipe</param>
             <returns></returns>
         </member>
+        <member name="M:KitchenHelper.API.Controllers.UsersRecipesController.GetUsersRecipesOptions">
+            <summary>
+            Allowed Actions on ingredients controller
+            </summary>
+            <returns></returns>
+        </member>
     </members>
 </doc>

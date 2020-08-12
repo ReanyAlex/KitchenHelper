@@ -5,11 +5,12 @@ using ResourceParameters = KitchenHelper.API.Data.Entities.ResourceParameters;
 
 namespace KitchenHelper.API.Data.Database.Sql.Abstract
 {
-    public interface IUsersRecipe
+    public interface IUsersRecipes
     {
         Task AddAsync(DbEntities.UsersRecipe entity);
         Task<DbEntities.Recipe> GetAsync(DbEntities.UsersRecipe entity);
-        Task<IEnumerable<DbEntities.Recipe>> GetListAsync(DbEntities.UsersRecipe entity, ResourceParameters.Recipes resourceParameters);
+        Task<IEnumerable<DbEntities.Recipe>> GetListAsync(int userId, ResourceParameters.Recipes resourceParameters);
         void RemoveAsync(DbEntities.UsersRecipe entity);
+        Task<bool> SaveAsync();
     }
 }

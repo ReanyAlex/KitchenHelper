@@ -7,11 +7,11 @@ using ResourceParameters = KitchenHelper.API.Data.Entities.ResourceParameters;
 
 namespace KitchenHelper.API.Core.Concrete
 {
-     public class UsersRecipe : Abstract.IUsersRecipe
+     public class UsersRecipes : Abstract.IUsersRecipes
     {
-        private readonly IUsersRecipe _dal;
+        private readonly IUsersRecipes _dal;
 
-        public UsersRecipe(IUsersRecipe dal)
+        public UsersRecipes(IUsersRecipes dal)
         {
             _dal = dal ?? throw new ArgumentNullException(nameof(dal));
         }
@@ -26,14 +26,19 @@ namespace KitchenHelper.API.Core.Concrete
             return await _dal.GetAsync(entity);
         }
 
-        public async Task<IEnumerable<Recipe>> GetListAsync(Data.Entities.DbEntities.UsersRecipe entity, ResourceParameters.Recipes resourceParameters)
+        public async Task<IEnumerable<Recipe>> GetListAsync(int userId, ResourceParameters.Recipes resourceParameters)
         {
-            return await _dal.GetListAsync(entity, resourceParameters);
+            return await _dal.GetListAsync(userId, resourceParameters);
         }
 
         public void RemoveAsync(Data.Entities.DbEntities.UsersRecipe entity)
         {
             _dal.RemoveAsync(entity);
+        }
+
+        public async Task<bool> SaveAsync()
+        {
+            return await _dal.SaveAsync();
         }
     }
 }
