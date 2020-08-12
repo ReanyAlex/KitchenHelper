@@ -27,6 +27,12 @@ namespace KitchenHelper.API.Configuration
             services.AddScoped<Core.Abstract.IUsersRecipes, Core.Concrete.UsersRecipes>();
             services.AddScoped<Data.Database.Sql.Abstract.IUsersRecipes, Data.Database.Sql.Concrete.UsersRecipes>();
         }
+
+        public static void AddUserService(this IServiceCollection services)
+        {
+            services.AddScoped<Core.Abstract.IUsers, Core.Concrete.Users>();
+            services.AddScoped<Data.Database.Sql.Abstract.IUsers, Data.Database.Sql.Concrete.Users>();
+        }
     }
 }
 

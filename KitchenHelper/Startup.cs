@@ -99,6 +99,7 @@ namespace KitchenHelper.API
             services.AddIngredientService();
             services.AddMeasurementService();
             services.AddUsersRecipesService();
+            services.AddUserService();
 
             services.AddSwaggerGen(setupAction =>
             {

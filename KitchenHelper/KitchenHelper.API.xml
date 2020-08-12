@@ -151,5 +151,35 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:KitchenHelper.API.Controllers.UsersRecipesController.AddUsersRecipeAsync(System.Int32,KitchenHelper.API.Data.Entities.Parameters.UsersRecipeForCreation)">
+            <summary>
+            Add a recipe to a user
+            </summary>
+            <param name="userId">The id of the user</param>
+            <param name="usersRecipeForCreation">Request body for adding a recipe to a user</param>
+            <returns></returns>
+        </member>
+        <member name="M:KitchenHelper.API.Controllers.UsersRecipesController.GetUsersRecipesAsync(System.Int32,KitchenHelper.API.Data.Entities.ResourceParameters.Recipes)">
+            <summary>
+            Get all recipes associated with a user
+            </summary>
+            <param name="userId">The id of the user</param>
+            <param name="recipesResourceParameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KitchenHelper.API.Controllers.UsersRecipesController.GetUsersRecipeAsync(KitchenHelper.API.Data.Entities.Parameters.UsersRecipeForRetrieval)">
+            <summary>
+            Get a recipe associated with a user
+            </summary>
+            <param name="usersRecipeForRetrieval"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KitchenHelper.API.Controllers.UsersRecipesController.RemoveUsersRecipeAsync(KitchenHelper.API.Data.Entities.Parameters.UsersRecipeForDeletion)">
+            <summary>
+            Remove a recipe from a user
+            </summary>
+            <param name="usersRecipeForDeletion"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

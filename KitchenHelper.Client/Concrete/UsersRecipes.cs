@@ -16,12 +16,12 @@ namespace KitchenHelper.API.Core.Concrete
             _dal = dal ?? throw new ArgumentNullException(nameof(dal));
         }
 
-        public async Task AddAsync(Data.Entities.DbEntities.UsersRecipe entity)
+        public async Task AddAsync(UsersRecipe entity)
         {
             await _dal.AddAsync(entity);
         }
 
-        public async Task<Recipe> GetAsync(Data.Entities.DbEntities.UsersRecipe entity)
+        public async Task<Recipe> GetAsync(UsersRecipe entity)
         {
             return await _dal.GetAsync(entity);
         }
@@ -31,7 +31,7 @@ namespace KitchenHelper.API.Core.Concrete
             return await _dal.GetListAsync(userId, resourceParameters);
         }
 
-        public void RemoveAsync(Data.Entities.DbEntities.UsersRecipe entity)
+        public void RemoveAsync(UsersRecipe entity)
         {
             _dal.RemoveAsync(entity);
         }
