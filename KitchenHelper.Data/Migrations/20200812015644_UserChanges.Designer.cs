@@ -3,14 +3,16 @@ using KitchenHelper.API.Data.Database.Sql;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KitchenHelper.API.Data.Migrations
 {
     [DbContext(typeof(KitchenHelperDbContext))]
-    partial class KitchenHelperDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200812015644_UserChanges")]
+    partial class UserChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,7 +152,7 @@ namespace KitchenHelper.API.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("KitchenHelper.API.Data.Entities.DbEntities.UsersRecipe", b =>
@@ -165,7 +167,7 @@ namespace KitchenHelper.API.Data.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("UsersRecipes");
+                    b.ToTable("UsersRecipe");
                 });
 
             modelBuilder.Entity("KitchenHelper.API.Data.Entities.DbEntities.RecipeIngredientInformation", b =>
