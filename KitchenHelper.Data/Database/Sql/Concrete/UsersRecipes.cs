@@ -2,7 +2,6 @@
 using KitchenHelper.API.Data.Entities.DbEntities;
 using KitchenHelper.API.Data.Helpers;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace KitchenHelper.API.Data.Database.Sql.Concrete
 {
-    class UsersRecipes : IUsersRecipe, IDisposable
+    public class UsersRecipes : IUsersRecipes, IDisposable
     {
 
         private KitchenHelperDbContext _context;
@@ -44,13 +43,13 @@ namespace KitchenHelper.API.Data.Database.Sql.Concrete
                             .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Recipe>> GetListAsync(UsersRecipe entity, Entities.ResourceParameters.Recipes resourceParameters)
+        public async Task<IEnumerable<Recipe>> GetListAsync(int userId, Entities.ResourceParameters.Recipes resourceParameters)
         {
             ParameterChecks.CheckResourceParameters(resourceParameters);
 
             var collection = _context.Recipes.AsQueryable<Recipe>();
 
-            var userRecipescollection = _context.UsersRecipes.AsQueryable<UsersRecipe>().Where(ur => ur.UserId == entity.UserId);
+            var userRecipescollection = _context.UsersRecipes.AsQueryable<UsersRecipe>().Where(ur => ur.UserId == userId);
 
             collection = collection.Include(r => r.Ingredients)
                                        .ThenInclude(i => i.Measurement)
@@ -74,6 +73,11 @@ namespace KitchenHelper.API.Data.Database.Sql.Concrete
         public void RemoveAsync(UsersRecipe entity)
         {
             _context.UsersRecipes.Remove(entity);
+        }
+
+        public async Task<bool> SaveAsync()
+        {
+            return (await _context.SaveChangesAsync() >= 0);
         }
 
         public void Dispose()
