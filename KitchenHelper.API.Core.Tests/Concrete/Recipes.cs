@@ -1,4 +1,5 @@
 ﻿using KitchenHelper.API.Data.Entities.DbEntities;
+using ResourceParameters = KitchenHelper.API.Data.Entities.ResourceParameters;
 using Moq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -52,6 +53,8 @@ namespace KitchenHelper.API.Core.Tests.Concrete
         private readonly IEnumerable<Recipe> _recipeList = new List<Recipe>() { 
             _recipe
         };
+
+        private readonly ResourceParameters.Recipes _resourParameter = new ResourceParameters.Recipes() { };
         
 
         [Fact]
@@ -59,11 +62,11 @@ namespace KitchenHelper.API.Core.Tests.Concrete
         {
             // Arrange
             Mock<data.Database.Sql.Abstract.IRecipes> recipeMock = new Mock<data.Database.Sql.Abstract.IRecipes>();
-            recipeMock.Setup(r => r.GetListAsync()).Returns(Task.FromResult(_recipeList));
+            recipeMock.Setup(r => r.GetListAsync(_resourParameter)).Returns(Task.FromResult(_recipeList));
             Core.Concrete.Recipes recipes = new Core.Concrete.Recipes(recipeMock.Object);
 
             // Act
-            var result = recipes.GetListAsync().Result;
+            var result = recipes.GetListAsync(_resourParameter).Result;
 
             // Assert
             Assert.NotNull(result);

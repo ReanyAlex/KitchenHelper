@@ -13,5 +13,6 @@ namespace KitchenHelper.API.Data.Database.Sql
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<Measurement> Measurements { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
