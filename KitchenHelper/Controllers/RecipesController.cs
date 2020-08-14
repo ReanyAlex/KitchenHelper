@@ -43,7 +43,7 @@ namespace KitchenHelper.API.Controllers
         /// <param name="recipeForCreation">Request Body for creating a new recipe</param>
         /// <returns></returns>
         [HttpPost(Name = "CreateRecipe")]
-        public async Task<ActionResult<RecipeDto>> CreateRecipeAsync(RecipeForCreation recipeForCreation)
+        public async Task<ActionResult<RecipeDetailedDto>> CreateRecipeAsync(RecipeForCreation recipeForCreation)
         {
             var recipeToAdd = _mapper.Map<Recipe>(recipeForCreation);
             await _recipes.CreateAsync(recipeToAdd);
@@ -52,7 +52,7 @@ namespace KitchenHelper.API.Controllers
             return CreatedAtRoute(
                 "GetRecipe",
                 new { recipeId = recipeToAdd.Id },
-                _mapper.Map<RecipeDto>(recipeToAdd));
+                _mapper.Map<RecipeDetailedDto>(recipeToAdd));
         }
 
         /// <summary>
@@ -77,13 +77,13 @@ namespace KitchenHelper.API.Controllers
         /// <param name="recipeId">The id of the recipe</param>
         /// <returns></returns>
         [HttpGet("{recipeId}", Name = "GetRecipe")]
-        public async Task<ActionResult<RecipeDto>> GetRecipeAsync(int recipeId)
+        public async Task<ActionResult<RecipeDetailedDto>> GetRecipeAsync(int recipeId)
         {
             var recipeFromRepo = await _recipes.GetAsync(recipeId);
 
             if (recipeFromRepo == null) return NotFound();
 
-            var recipeDto = _mapper.Map<RecipeDto>(recipeFromRepo);
+            var recipeDto = _mapper.Map<RecipeDetailedDto>(recipeFromRepo);
             return Ok(recipeDto);
         }
 
@@ -125,7 +125,7 @@ namespace KitchenHelper.API.Controllers
         /// ]
         /// </remarks>
         [HttpPatch("{recipeId}", Name = "PatchRecipe")]
-        public async Task<ActionResult<RecipeDto>> UpdateRecipeAsync(int recipeId, JsonPatchDocument<RecipeForUpdate> patchDocument)
+        public async Task<ActionResult<RecipeDetailedDto>> UpdateRecipeAsync(int recipeId, JsonPatchDocument<RecipeForUpdate> patchDocument)
         {
             var recipeFromRepo = await _recipes.GetAsync(recipeId);
 
@@ -142,7 +142,7 @@ namespace KitchenHelper.API.Controllers
             _recipes.Update(recipeFromRepo);
             await _recipes.SaveAsync();
 
-            return Ok(_mapper.Map<Recipe>(recipeFromRepo));
+            return Ok(_mapper.Map<RecipeDetailedDto>(recipeFromRepo));
         }
 
         /// <summary>

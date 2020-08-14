@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace KitchenHelper.API.Data.Entities.Dtos
+﻿namespace KitchenHelper.API.Data.Entities.Dtos
 {
     public class RecipeDto
     {
@@ -11,11 +9,5 @@ namespace KitchenHelper.API.Data.Entities.Dtos
         public string Description { get; set; }
 
         public string Category { get; set; }
-
-        public ICollection<RecipeIngredientInformationDto> Ingredients { get; set; }
-            = new List<RecipeIngredientInformationDto>();
-
-        public ICollection<RecipeStepDto> RecipeSteps { get; set; }
-            = new List<RecipeStepDto>();
     }
 }
