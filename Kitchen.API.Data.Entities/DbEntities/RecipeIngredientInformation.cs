@@ -10,7 +10,7 @@ namespace KitchenHelper.API.Data.Entities.DbEntities
         public int Id { get; set; }
 
         [Required]
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; }
 
         [ForeignKey("MeasurementId")]
         public Measurement Measurement { get; set; }

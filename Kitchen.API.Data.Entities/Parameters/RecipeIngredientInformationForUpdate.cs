@@ -5,7 +5,7 @@ namespace KitchenHelper.API.Data.Entities.Parameters
     public class RecipeIngredientInformationForUpdate
     {
         [Required]
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; }
 
         [Required]
         public int MeasurementId { get; set; }
