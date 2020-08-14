@@ -42,12 +42,6 @@ namespace KitchenHelper.API.Data.Database.Sql.Concrete
 
             var collection = _context.Recipes.AsQueryable<Recipe>();
 
-            collection = collection.Include(r => r.Ingredients)
-                                       .ThenInclude(i => i.Measurement)
-                                      .Include(r => r.Ingredients)
-                                       .ThenInclude(i => i.Ingredient)
-                                    .Include(r => r.RecipeSteps);
-
             if (!string.IsNullOrWhiteSpace(resourceParameters.SearchQuery))
                 collection = collection.Where(i => i.Name.Contains(resourceParameters.SearchQuery.Trim()));
                            
