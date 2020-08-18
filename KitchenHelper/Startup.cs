@@ -91,6 +91,13 @@ namespace KitchenHelper.API
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddDbContext<KitchenHelperDbContext>(o => o.UseSqlServer(Configuration.GetConnectionString("KitchenHelper")));
@@ -100,6 +107,7 @@ namespace KitchenHelper.API
             services.AddMeasurementService();
             services.AddUsersRecipesService();
             services.AddUserService();
+            services.AddScheduledRecipeService();
 
             services.AddSwaggerGen(setupAction =>
             {
@@ -145,6 +153,7 @@ namespace KitchenHelper.API
                                }
                            }));
             }
+            app.UseCors("MyPolicy");
 
             app.UseHttpsRedirection();
 

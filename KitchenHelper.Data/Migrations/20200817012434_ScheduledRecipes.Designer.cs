@@ -4,14 +4,16 @@ using KitchenHelper.API.Data.Database.Sql;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KitchenHelper.API.Data.Migrations
 {
     [DbContext(typeof(KitchenHelperDbContext))]
-    partial class KitchenHelperDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200817012434_ScheduledRecipes")]
+    partial class ScheduledRecipes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,7 +100,7 @@ namespace KitchenHelper.API.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Quantity")
-                        .HasColumnType("decimal(16, 4)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("RecipeId")
                         .HasColumnType("int");
