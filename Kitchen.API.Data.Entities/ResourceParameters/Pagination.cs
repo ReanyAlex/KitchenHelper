@@ -2,7 +2,7 @@
 {
     public class Pagination
     {
-        const int maxPageSize = 20;
+        const int maxPageSize = 100;
         public string SearchQuery { get; set; }
         public int PageNumber { get; set; } = 1;
 
