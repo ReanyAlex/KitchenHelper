@@ -5,5 +5,7 @@
         public int UserId { get; set; }
 
         public int RecipeId { get; set; }
+
+        public int ScheduleId { get; set; }
     }
 }

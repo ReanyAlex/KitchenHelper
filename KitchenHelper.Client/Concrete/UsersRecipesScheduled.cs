@@ -7,11 +7,11 @@ using ResourceParameters = KitchenHelper.API.Data.Entities.ResourceParameters;
 
 namespace KitchenHelper.API.Core.Concrete
 {
-    public class ScheduledRecipes : Abstract.IScheduledRecipes
+    public class UsersRecipesScheduled : Abstract.IUsersRecipesScheduled
     {
-        private readonly IScheduledRecipes _dal;
+        private readonly IUsersRecipesScheduled _dal;
 
-        public ScheduledRecipes(IScheduledRecipes dal)
+        public UsersRecipesScheduled(IUsersRecipesScheduled dal)
         {
             _dal = dal ?? throw new ArgumentNullException(nameof(dal));
         }
@@ -21,7 +21,7 @@ namespace KitchenHelper.API.Core.Concrete
             await _dal.AddAsync(entity);
         }
 
-        public async Task<ScheduledRecipe> GetAsync(ScheduledRecipe entity)
+        public async Task<IEnumerable<ScheduledRecipe>> GetAsync(ScheduledRecipe entity)
         {
             return await _dal.GetAsync(entity);
         }
@@ -29,6 +29,11 @@ namespace KitchenHelper.API.Core.Concrete
         public async Task<IEnumerable<ScheduledRecipe>> GetListAsync(int userId, ResourceParameters.ScheduledRecipes resourceParameters)
         {
             return await _dal.GetListAsync(userId, resourceParameters);
+        }
+
+        public Task<ScheduledRecipe> GetScheduleAsync(int scheduleId)
+        {
+            throw new NotImplementedException();
         }
 
         public void RemoveAsync(ScheduledRecipe entity)

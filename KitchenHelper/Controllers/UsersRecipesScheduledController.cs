@@ -13,21 +13,20 @@ namespace KitchenHelper.API.Controllers
 {
     [Route("api/user/{userId}/recipes")]
     [ApiController]
-    public class ScheduledRecipesController : ControllerBase
+    public class UsersRecipesScheduledController : ControllerBase
     {
-        private readonly IScheduledRecipes _scheduledRecipes;
+        private readonly IUsersRecipesScheduled _usersRecipesScheduled;
         private readonly IRecipes _recipes;
         private readonly IUsers _users;
         private readonly IMapper _mapper;
 
-        public ScheduledRecipesController(IScheduledRecipes scheduledRecipes, IUsers users, IRecipes recipes, IMapper mapper)
+        public UsersRecipesScheduledController(IUsersRecipesScheduled usersRecipesScheduled, IUsers users, IRecipes recipes, IMapper mapper)
         {
-            _scheduledRecipes = scheduledRecipes ?? throw new ArgumentNullException(nameof(scheduledRecipes));
+            _usersRecipesScheduled = usersRecipesScheduled ?? throw new ArgumentNullException(nameof(usersRecipesScheduled));
             _users = users ?? throw new ArgumentNullException(nameof(users));
             _recipes = recipes ?? throw new ArgumentNullException(nameof(recipes));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
-
 
         [HttpOptions]
         public IActionResult GetScheduledRecipesOptions()
@@ -35,7 +34,6 @@ namespace KitchenHelper.API.Controllers
             Response.Headers.Add("Allow", "OPTIONS, GET, POST, DELETE");
             return Ok();
         }
-
 
         [HttpPost("{recipeId}/schedule", Name = "AddScheduledRecipe")]
         public async Task<ActionResult<ScheduledRecipeDto>> AddScheduledRecipeAsync(int userId,int recipeId, ScheduledRecipeForCreation scheduledRecipeForCreation)
@@ -50,55 +48,41 @@ namespace KitchenHelper.API.Controllers
             scheduledRecipeToAdd.UserId = userId;
             scheduledRecipeToAdd.RecipeId = recipeId;
 
-            await _scheduledRecipes.AddAsync(scheduledRecipeToAdd);
-            await _scheduledRecipes.SaveAsync();
+            await _usersRecipesScheduled.AddAsync(scheduledRecipeToAdd);
+            await _usersRecipesScheduled.SaveAsync();
 
             var scheduledRecipeDto = _mapper.Map<ScheduledRecipeDto>(scheduledRecipeToAdd);
 
             return CreatedAtRoute(
-                "GetScheduledRecipe",
+                "GetUsersRecipeSchedule",//needs to be new endpoint
                 new { scheduledRecipeToAdd.UserId, scheduledRecipeToAdd.RecipeId},
                 scheduledRecipeDto);
         }
 
-        [HttpGet("schedule", Name = "GetScheduledRecipes")]
-        public async Task<ActionResult<IEnumerable<ScheduledRecipeDto>>> GetScheduledRecipesAsync(int userId, [FromQuery] ResourceParameters.ScheduledRecipes scheduledRecipesResourceParameters)
-        {
-            var user = await _users.GetAsync(userId);
-            if (user == null) return NotFound();
-
-            var recipeEntities = await _scheduledRecipes.GetListAsync(userId, scheduledRecipesResourceParameters);
-
-            var scheduledRecipeDtosList = _mapper.Map<IEnumerable<ScheduledRecipeDto>>(recipeEntities);
-            return Ok(scheduledRecipeDtosList);
-        }
-
-        [HttpGet("{recipeId}/schedule", Name = "GetScheduledRecipe")]
-        public async Task<ActionResult<ScheduledRecipeDto>> GetUsersRecipeAsync([FromRoute] ScheduledRecipeForRetrieval scheduledRecipeForRetrieval)
+        [HttpGet("{recipeId}/schedule", Name = "GetUsersRecipeSchedule")]
+        public async Task<ActionResult<IEnumerable<ScheduledRecipeDto>>> GetUsersRecipeScheduleAsync([FromRoute] ScheduledRecipeForRetrieval scheduledRecipeForRetrieval)
         {
             var user = await _users.GetAsync(scheduledRecipeForRetrieval.UserId);
             if (user == null) return NotFound();
 
             var scheduledRecipeToRetrieve = _mapper.Map<ScheduledRecipe>(scheduledRecipeForRetrieval);
 
-            var scheduledRecipeEntity = await _scheduledRecipes.GetAsync(scheduledRecipeToRetrieve);
+            var scheduledRecipeEntity = await _usersRecipesScheduled.GetAsync(scheduledRecipeToRetrieve);
 
-            var scheduledRecipeDto = _mapper.Map<ScheduledRecipeDto>(scheduledRecipeEntity);
+            var scheduledRecipeDto = _mapper.Map<IEnumerable<ScheduledRecipeDto>>(scheduledRecipeEntity);
             return Ok(scheduledRecipeDto);
         }
 
-
-        [HttpDelete("{recipeId}/schedule", Name = "RemoveScheduledRecipe")]
-        public async Task<ActionResult> RemoveScheduledRecipeAsync([FromRoute] ScheduledRecipeForDeletion scheduledRecipeForDeletion)
+        [HttpGet("schedule", Name = "GetUsersScheduledRecipes")]
+        public async Task<ActionResult<IEnumerable<ScheduledRecipeDto>>> GetUsersScheduledRecipesAsync(int userId, [FromQuery] ResourceParameters.ScheduledRecipes scheduledRecipesResourceParameters)
         {
-            var scheduledRecipeToRemove = _mapper.Map<ScheduledRecipe>(scheduledRecipeForDeletion);
+            var user = await _users.GetAsync(userId);
+            if (user == null) return NotFound();
 
-            var scheduledRecipeFromRepo = await _scheduledRecipes.GetAsync(scheduledRecipeToRemove);
+            var recipeEntities = await _usersRecipesScheduled.GetListAsync(userId, scheduledRecipesResourceParameters);
 
-            _scheduledRecipes.RemoveAsync(scheduledRecipeFromRepo);
-            await _scheduledRecipes.SaveAsync();
-
-            return NoContent();
+            var scheduledRecipeDtosList = _mapper.Map<IEnumerable<ScheduledRecipeDto>>(recipeEntities);
+            return Ok(scheduledRecipeDtosList);
         }
     }
 }

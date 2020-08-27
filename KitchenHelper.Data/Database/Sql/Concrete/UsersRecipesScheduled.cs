@@ -9,12 +9,11 @@ using System.Threading.Tasks;
 
 namespace KitchenHelper.API.Data.Database.Sql.Concrete
 {
-    public class ScheduledRecipes : IScheduledRecipes, IDisposable
+    public class UsersRecipesScheduled : IUsersRecipesScheduled, IDisposable
     {
-
         private KitchenHelperDbContext _context;
 
-        public ScheduledRecipes(KitchenHelperDbContext context)
+        public UsersRecipesScheduled(KitchenHelperDbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
@@ -24,13 +23,13 @@ namespace KitchenHelper.API.Data.Database.Sql.Concrete
             await _context.ScheduledRecipes.AddAsync(entity);
         }
 
-        public async Task<ScheduledRecipe> GetAsync(ScheduledRecipe entity)
+        public async Task<IEnumerable<ScheduledRecipe>> GetAsync(ScheduledRecipe entity)
         {
             return await _context.ScheduledRecipes
                 .Include(sr => sr.Recipe)
                 .Where(r => r.RecipeId == entity.RecipeId)
                 .Where(r => r.UserId == entity.UserId)
-                .FirstOrDefaultAsync();
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<ScheduledRecipe>> GetListAsync(int userId, Entities.ResourceParameters.ScheduledRecipes resourceParameters)
@@ -45,6 +44,14 @@ namespace KitchenHelper.API.Data.Database.Sql.Concrete
 
             return await collection.ToListAsync();
         }
+
+        public async Task<ScheduledRecipe> GetScheduleAsync(int scheduleId)
+        {
+            return await _context.ScheduledRecipes
+                .Where(sr => sr.Id == scheduleId)
+                .FirstOrDefaultAsync();
+        }
+    
 
         public void RemoveAsync(ScheduledRecipe entity)
         {

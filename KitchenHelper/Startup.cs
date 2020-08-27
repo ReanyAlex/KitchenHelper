@@ -107,7 +107,8 @@ namespace KitchenHelper.API
             services.AddMeasurementService();
             services.AddUsersRecipesService();
             services.AddUserService();
-            services.AddScheduledRecipeService();
+            services.AddUsersRecipesScheduledService();
+            services.AddRecipesScheduledService();
 
             services.AddSwaggerGen(setupAction =>
             {
